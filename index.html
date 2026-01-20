@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Brandon Feraud-Solorzano — Engineering Portfolio</title>
+  <meta name="description" content="AI-Enhanced Mechanical Design, Prototyping & Testing, Simulation & Analysis" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="home">
+  <!-- HEADER -->
+  <div class="page" role="main">
+    <header class="site-header">
+      <div class="brand">
+        <div class="brand-name">Brandon Feraud-Solorzano</div>
+        <div class="brand-sub">Cornell University • B.S. Mechanical Engineering • M.Eng. Mechanical Engineering</div>
+      </div>
+      <nav class="primary-nav" aria-label="Primary navigation">
+        <a href="index.html" class="active">Home</a>
+        <a href="about.html">About</a>
+        <a href="works.html">Works</a>
+        <a href="resume.html">Resume</a>
+      </nav>
+
+      <button class="menu-btn" aria-controls="mobile-nav" aria-expanded="false" id="menuBtn">☰</button>
+    </header>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section class="landing">
+    <div class="landing-wrap">
+      <!-- Left: big hero box becomes slideshow -->
+      <div class="hero-bg" id="heroSlideshow">
+        <div class="slides">
+          <img src="photos/DBF_Mech.jpg" alt="Workshop prototype" class="active" />
+          <img src="photos/DPE.jpg" alt="Assembly and test bench" />
+          <img src="photos/hsf_picture_4.jpg" alt="CAD and machined parts" />
+        </div>
+
+        <div class="hero-overlay">
+          <h1 class="hero-title" style="font-size: 3rem;">Brandon Feraud-Solorzano</h1>
+          <p class="hero-subtitle">AI-Enhanced Mechanical Design&nbsp;|&nbsp;Simulation & Analysis&nbsp;|&nbsp;Testing
+          </p>
+        </div>
+      </div>
+
+      <!-- Right: sidebar -->
+      <aside class="sidebar">
+        <img class="avatar" src="photos/grad_portrait.png" alt="Portrait of Brandon Feraud-Solorzano" />
+        <div class="contact-block">
+          <a class="contact-link" href="mailto:bf282@cornell.edu">bf282@cornell.edu</a><br>
+          <a class="contact-link" href="https://www.linkedin.com/in/brandon-feraud-solorzano/"
+            target="_blank">https://www.linkedin.com/in/brandon-feraud-solorzano/</a><br>
+          <span class="contact-text">(786)451-7802</span>
+        </div>
+        <a class="resume-big" href="BFS_Resume.pdf" download>Download My Resume</a>
+      </aside>
+    </div>
+  </section>
+
+  <!-- CONTENT + FOOTER -->
+  <div class="page">
+    <main>
+      <section id="resume" class="resume-block">
+        <h2>Resume</h2>
+        <p class="muted">Prefer a quick download? Use the button above or click below.</p>
+        <p><a href="Online_Resume.pdf" class="btn outline">Download Resume</a></p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>© Brandon Feraud-Solorzano — Built with HTML &amp; CSS</div>
+    </footer>
+  </div>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <div class="box" role="dialog" aria-modal="true">
+      <a href="index.html" onclick="closeMenu()">Home</a>
+      <a href="about.html" onclick="closeMenu()">About</a>
+      <a href="works.html" onclick="closeMenu()">Works</a>
+      <a href="resume.html" onclick="closeMenu()">Resume</a>
+      <button class="close-btn" onclick="closeMenu()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileNav = document.getElementById('mobileNav');
+
+    function openMenu() {
+      mobileNav.classList.add('open');
+      mobileNav.setAttribute('aria-hidden', 'false');
+      menuBtn.setAttribute('aria-expanded', 'true');
+    }
+    function closeMenu() {
+      mobileNav.classList.remove('open');
+      mobileNav.setAttribute('aria-hidden', 'true');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    }
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => {
+        mobileNav.classList.contains('open') ? closeMenu() : openMenu();
+      });
+      window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+    }
+
+    // Simple crossfade slideshow (changes every 4s)
+    const slides = document.querySelectorAll('#heroSlideshow .slides img');
+    let i = 0;
+    function nextSlide() {
+      slides[i].classList.remove('active');
+      i = (i + 1) % slides.length;
+      slides[i].classList.add('active');
+    }
+    if (slides.length) {
+      slides[0].classList.add('active');
+      setInterval(nextSlide, 4000);
+    }
+  </script>
+</body>
+
+</html>

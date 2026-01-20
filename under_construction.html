@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Under Construction | Brandon Feraud-Solorzano</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .construction-container {
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .construction-icon {
+      font-size: 80px;
+      margin-bottom: 24px;
+      opacity: 0.8;
+    }
+
+    .construction-container h1 {
+      font-size: 42px;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    .construction-container p {
+      font-size: 18px;
+      color: var(--muted);
+      margin-bottom: 32px;
+      max-width: 500px;
+      line-height: 1.6;
+    }
+
+    .construction-status {
+      background: #674148;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 24px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page" role="main">
+    <header class="site-header">
+      <div class="brand">
+        <div class="brand-name">Brandon Feraud-Solorzano</div>
+        <div class="brand-sub">Cornell University • B.S. Mechanical Engineering • M.Eng. Mechanical Engineering</div>
+      </div>
+      <nav class="primary-nav" aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="works.html">Works</a>
+        <a href="resume.html">Resume</a>
+      </nav>
+      <button class="menu-btn" aria-controls="mobile-nav" aria-expanded="false" id="menuBtn">☰</button>
+    </header>
+
+    <main>
+      <div class="construction-container">
+        <div class="construction-icon">🚧</div>
+        <div class="construction-status">Under Construction</div>
+        <h1>Coming Soon</h1>
+        <p>This page is currently being built. Check back soon to see the completed content!</p>
+        <a href="works.html" class="btn big">Return to Works</a>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div>© Brandon Feraud-Solorzano – Built with HTML &amp; CSS</div>
+    </footer>
+  </div>
+
+  <!-- Mobile nav -->
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <div class="box" role="dialog" aria-modal="true">
+      <a href="index.html" onclick="closeMenu()">Home</a>
+      <a href="about.html" onclick="closeMenu()">About</a>
+      <a href="works.html" onclick="closeMenu()">Works</a>
+      <a href="resume.html" onclick="closeMenu()">Resume</a>
+      <button class="close-btn" onclick="closeMenu()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    function openMenu() { mobileNav.classList.add('open'); mobileNav.setAttribute('aria-hidden', 'false'); menuBtn.setAttribute('aria-expanded', 'true'); }
+    function closeMenu() { mobileNav.classList.remove('open'); mobileNav.setAttribute('aria-hidden', 'true'); menuBtn.setAttribute('aria-expanded', 'false'); }
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => mobileNav.classList.contains('open') ? closeMenu() : openMenu());
+      window.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+    }
+  </script>
+</body>
+
+</html>

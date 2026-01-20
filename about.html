@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Me | Brandon Feraud-Solorzano</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="page" role="main">
+    <header class="site-header">
+      <div class="brand">
+        <div class="brand-name">Brandon Feraud-Solorzano</div>
+        <div class="brand-sub"> Cornell University • B.S. Mechanical Engineering • M.Eng. Mechanical Engineering</div>
+      </div>
+      <nav class="primary-nav" aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html" class="active">About</a>
+        <a href="works.html">Works</a>
+        <a href="resume.html">Resume</a>
+      </nav>
+
+
+      <button class="menu-btn" aria-controls="mobile-nav" aria-expanded="false" id="menuBtn">☰</button>
+    </header>
+
+    <!-- Mobile nav -->
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+      <div class="box" role="dialog" aria-modal="true">
+        <a href="index.html" onclick="closeMenu()">Home</a>
+        <a href="works.html" onclick="closeMenu()">Works</a>
+        <a href="about.html" onclick="closeMenu()">About</a>
+        <a href="resume.html" onclick="closeMenu()">Resume</a>
+        <button class="close-btn" onclick="closeMenu()">Close</button>
+      </div>
+    </div>
+
+    <main>
+      <section class="about-container">
+        <div class="about-image">
+          <img src="photos/grad_photo.jpg" alt="Brandon Feraud-Solorzano" />
+        </div>
+
+        <div class="about-text">
+          <h1>About Me</h1>
+          <p>
+            Welcome to my portfolio!
+          </p>  
+
+          <p>  
+            My name is Brandon Feraud-Solorzano, and I am from Miami, FL. I have earned both my 
+            Bachelor’s of Science and Master’s of Engineering in Mechanical Engineering from Cornell University.
+          </p>
+
+          <p>
+            If I had to describe myself, I would say that I am a systems-oriented designer. I like 
+            turning messy, open-ended problems into clear requirements, testable decisions, and 
+            repeatable workflows. My work spans prototyping, digital simulation, and mechanical testing, 
+            and I’m most energized when I can take a concept from early sketches to a validated design.
+
+          </p>
+
+          <p>
+            My focus is on product design, with projects ranging from Clippy, a lecture desk extender 
+            for left-handed students, to Project Hephaesas, a Text-to-CAD framework built to speed up 
+            iteration. I’m interested in building innovative products that leverage emerging 
+            technologies, such as AI, to solve everyday problems.
+
+          </p>
+
+          <p>
+            Outside of engineering, I read biographies and curate playlists. I’m drawn to how people think, 
+            decide, and learn, and I hope to try to bring that same curiosity and perspective into how I 
+            approach engineering problems.
+          </p>
+
+          <p>
+            I’m currently looking for product design/mechanical design roles where I can build user-centered 
+            hardware and ship quickly.
+          </p>
+        </div>
+
+      </section>
+
+    </main>
+    <div class="photo-collage">
+      <div class="photo-item">
+        <img src="photos/gala2.jpg" alt="NACME Gala Event">
+        <span class="caption">NACME Gala Event</span>
+      </div>
+      <div class="photo-item">
+        <img src="photos/grad_w_fam.JPG" alt="Bachelor's of Science Graduation">
+        <span class="caption">Bachelor's of Science Graduation</span>
+      </div>
+      <div class="photo-item">
+        <img src="photos/HSF_Group.jpg" alt="HSF STEM Summit">
+        <span class="caption">HSF STEM Summit</span>
+      </div>
+      <div class="photo-item">
+        <img src="photos/OIE_Snow.jpg" alt="Office of Inclusive Excellence Work Retreat">
+        <span class="caption">Office of Inclusive Excellence Work Retreat</span>
+      </div>
+      <div class="photo-item">
+        <img src="photos/csds.JPG" alt="Cornell Speech and Debate Society National Tournament">
+        <span class="caption">Cornell Speech and Debate Society National Tournament</span>
+      </div>
+      <div class="photo-item">
+        <img src="photos/ITT.JPG" alt="ITT Internship">
+        <span class="caption">ITT Internship</span>
+      </div>
+    </div>
+
+
+    <footer class="site-footer">
+      <div>© Brandon Feraud-Solorzano — Built with HTML &amp; CSS</div>
+    </footer>
+  </div>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    function openMenu() { mobileNav.classList.add('open'); mobileNav.setAttribute('aria-hidden', 'false'); menuBtn.setAttribute('aria-expanded', 'true'); }
+    function closeMenu() { mobileNav.classList.remove('open'); mobileNav.setAttribute('aria-hidden', 'true'); menuBtn.setAttribute('aria-expanded', 'false'); }
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => {
+        mobileNav.classList.contains('open') ? closeMenu() : openMenu();
+      });
+      window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+    }
+  </script>
