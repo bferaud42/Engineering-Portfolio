@@ -5,9 +5,7 @@
   --muted: #6b7280;
   --accent: #0b84ff;
   --max-width: 1200px;
-  /* how far to offset anchors below the sticky header */
   --anchor-offset: 8px;
-  /* tweak to 80–110px if your header changes */
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
@@ -18,6 +16,11 @@ body {
   background: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--anchor-offset);
 }
 
 .page {
@@ -149,6 +152,236 @@ h1 {
   color: var(--text);
 }
 
+/* ============ Featured Projects Section ============ */
+.featured-works {
+  background: #ffffff;
+  margin: 0 0 60px 0;
+  padding: 0;
+}
+
+.featured-wrap {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 28px;
+  display: grid;
+  grid-template-columns: 0.8fr 1.6fr;
+  gap: 28px;
+  align-items: stretch;
+  min-height: 60vh;
+  background: #a5555e57;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(76, 112, 90, 0.6);
+  position: relative;
+}
+
+.featured-bg-blur {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(20px);
+  opacity: 0.4;
+  z-index: 0;
+  transition: background-image 800ms ease;
+}
+
+.featured-hero {
+  position: relative;
+  height: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #996260;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  order: 2;
+  z-index: 1;
+}
+
+.slideshow-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 3;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.1);
+}
+
+.dot.active {
+  background: #fff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+.featured-hero .slides,
+.featured-hero .slides img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.featured-hero .slides img {
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 800ms ease;
+}
+
+.featured-hero .slides img.active {
+  opacity: 1;
+}
+
+.featured-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.6));
+  pointer-events: none;
+  z-index: 1;
+}
+
+.featured-overlay {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: 8%;
+  z-index: 2;
+  display: none;
+}
+
+.featured-title {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  font-size: clamp(32px, 5vw, 64px);
+  line-height: 0.95;
+  color: #fff;
+}
+
+.featured-subtitle {
+  margin: 10px 0 0 2px;
+  font-size: clamp(14px, 1.6vw, 18px);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.featured-sidebar {
+  background: #638671b7;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #eef3f7;
+  border-radius: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(96, 61, 61, 0.534);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+  order: 1;
+  z-index: 1;
+}
+
+.sidebar-content {
+  position: absolute;
+  inset: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  opacity: 0;
+  transition: opacity 500ms ease;
+  pointer-events: none;
+}
+
+.sidebar-content.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.featured-info {
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  padding: 20px 0;
+}
+
+.featured-info h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.featured-info p {
+  margin: 8px 0;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.featured-info p strong {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 1.1rem;
+}
+
+.featured-btn {
+  display: inline-block;
+  text-align: center;
+  background: #fff;
+  color: #1f2430;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 8px;
+  width: auto;
+  min-width: 160px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.featured-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.section-header {
+  text-align: left;
+  margin: 40px 0 30px 0;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  margin: 0 0 8px 0;
+  color: var(--text);
+}
+
+.section-header p {
+  color: var(--muted);
+  margin: 0;
+}
+
 /* ============ Works: 50/50 Split ============ */
 .works-header h1 {
   margin: 45px 0 8px 0;
@@ -158,19 +391,17 @@ h1 {
 .work-feature {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  /* 50/50 split */
   gap: 28px;
   align-items: stretch;
-  background: #674148;
+  background: #8e52599e;
   border-radius: 14px;
   overflow: hidden;
   margin: 32px 0 50px;
-  padding: 28px;
+  padding: 28px 28px 40px;
 }
 
 .work-feature.invert {
   grid-template-columns: 1fr 1fr;
-  /* keep equal split when reversed */
 }
 
 .work-feature.invert .work-feature__text {
@@ -182,7 +413,7 @@ h1 {
 }
 
 .work-feature__text {
-  background: rgb(251, 241, 251);
+  background: #edc1c6e0;
   border-radius: 12px;
   padding: 32px 28px;
   display: flex;
@@ -190,7 +421,8 @@ h1 {
   justify-content: center;
   align-items: center;
   text-align: center;
-  height: 100%;
+  height: auto;
+  align-self: start;
 }
 
 .work-feature__text h2 {
@@ -243,30 +475,6 @@ h1 {
   object-fit: cover;
 }
 
-/* Add extra pink at the bottom of the card */
-.work-feature {
-  padding: 28px 28px 40px;
-  /* was 28px all around; adds pink under content */
-}
-
-/* Let the text box stop at its content height, so pink is visible below it */
-.work-feature__text {
-  /* remove any forced height */
-  height: auto;
-  /* override the current height:100% */
-  align-self: start;
-  /* prevent grid from stretching it to the bottom */
-}
-
-/* Keep mobile comfy: slightly smaller padding on narrow screens */
-@media (max-width: 980px) {
-  .work-feature {
-    padding: 20px 20px 30px;
-    /* still shows a bit of pink at the bottom */
-  }
-}
-
-
 /* ============ About Page ============ */
 body.about {
   background: #f7f6f4;
@@ -276,30 +484,36 @@ body.about {
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
-  min-height: 60vh;
-  margin-top: 12px;
-  background: rgba(255, 255, 255, 0.85);
+  min-height: 40vh;
+  margin-top: 40px;
+  background: #79a189;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px #4c705a9a;
 }
 
 .about-image {
   flex: 1;
   min-width: 300px;
-  margin-top: 40px;
+  margin-top: 60px;
+  padding: 40px;
 }
 
 .about-image img {
   width: 90%;
-  height: 90%;
+  height: 95%;
   object-fit: cover;
+  border-radius: 14px;
 }
 
 .about-text {
   flex: 1;
-  padding: 35px 60px 60px 60px;
-  backdrop-filter: blur(6px);
+  padding: 40px;
+
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
+  margin: 20px;
 }
 
 .about-text h1 {
@@ -314,12 +528,12 @@ body.about {
 }
 
 .about p {
-  margin: 0 0 16px; /* consistent spacing between paragraphs */
-  line-height: 1.6; /* improves readability */
+  margin: 0 0 16px;
+  line-height: 1.6;
 }
 
 .about h2 {
-  margin-bottom: 12px; /* less gap below the title */
+  margin-bottom: 12px;
 }
 
 .about {
@@ -328,14 +542,13 @@ body.about {
   padding: 20px;
 }
 
-
 /* ============ Photo Collage ============ */
 .photo-collage {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   margin-top: 40px;
-  padding: 20px;
+  padding: 0;
 }
 
 .photo-item {
@@ -389,11 +602,11 @@ body.about {
 
 /* ============ Home Page ============ */
 .home .landing {
-  background: #674148;
-  color: #fff;
+  background: #ffffff;
+  color: #ffffff;
   min-height: 83vh;
   margin: 0;
-  padding: 0;
+  
 }
 
 .home .landing-wrap {
@@ -407,6 +620,10 @@ body.about {
   gap: 28px;
   align-items: stretch;
   min-height: 75vh;
+  background: #79a189;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(76, 112, 90, 0.6);
 }
 
 .home .hero-bg {
@@ -469,10 +686,13 @@ body.about {
 }
 
 .home .sidebar {
-  background: #996260;
+  background: #a3646bd3;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: #eef3f7;
   border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(96, 61, 61, 0.534);
   padding: 28px;
   display: flex;
   flex-direction: column;
@@ -487,7 +707,7 @@ body.about {
   height: 220px;
   object-fit: cover;
   border-radius: 50%;
-  border: 6px solid #674148;
+  border: 6px solid #5b202b;
   outline: 1px solid rgba(255, 255, 255, 0.35);
 }
 
@@ -526,50 +746,18 @@ body.about {
   text-decoration: none;
 }
 
-@media (max-width: 980px) {
-  .home .landing-wrap {
-    grid-template-columns: 1fr;
-  }
-
-  .home .avatar {
-    width: 180px;
-    height: 180px;
-  }
-
-  .work-feature,
-  .work-feature.invert {
-    grid-template-columns: 1fr;
-  }
-
-  .work-feature__text {
-    order: 2;
-  }
-
-  .work-feature__media {
-    order: 1;
-    min-height: 240px;
-  }
-}
-
 /* ============ Resume Page ============ */
 .resume-container h1 {
   font-size: 25px;
-  /* smaller font size */
   font-weight: 650;
-  /* slightly bold */
   margin-top: 40px;
-  /* space below your name */
   margin-bottom: 20px;
-  /* a bit of breathing room before buttons */
   color: var(--text);
 }
 
-/* ============ Resume Page Buttons ============ */
 .resume-container .btn {
   background: #674148;
-  /* your pink shade */
   color: #fff;
-  /* white text */
   border: none;
   font-weight: 700;
   transition: background 0.2s ease;
@@ -577,10 +765,8 @@ body.about {
 
 .resume-container .btn:hover {
   background: #674148;
-  /* slightly darker pink on hover */
 }
 
-/* Outline button version */
 .resume-container .btn.outline {
   background: transparent;
   border: 2px solid #674148;
@@ -592,90 +778,10 @@ body.about {
   color: #fff;
 }
 
-/* STEADYSTRIDE */
-
-/* ===== Summary polish ===== */
+/* ============ Summary Card ============ */
 .summary-card {
-  /* soft background + subtle border to separate from page */
   background: radial-gradient(120% 140% at 0% 0%, #ffffff 0%, #fafafb 60%, #f6f7f9 100%);
   border: 1px solid var(--edge);
-}
-
-.summary-grid {
-  display: grid;
-  grid-template-columns: 1.25fr 0.9fr;   /* give copy room, keep photo elegant */
-  gap: 22px;
-  align-items: center;
-}
-
-.summary-copy {
-  max-width: 62ch;                       /* prettier line length */
-  font-size: 1.0rem;
-  line-height: 1.2;
-}
-
-.pill-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.pill {                                  /* reuses your pill but makes it a touch lighter */
-  display: inline-block;
-  font-size: 12px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid var(--edge);
-  background: #fff;
-}
-
-/* Framed photo with soft shadow and optional caption */
-.photo-frame {
-  position: relative;
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid var(--edge);
-  box-shadow: 0 14px 30px rgba(0,0,0,0.12);
-  background: #f7f8fb;
-}
-
-.photo-frame img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;          /* fills nicely; use 'contain' if you want the whole image */
-  aspect-ratio: 4 / 5;        /* portrait look; tweak to 3/4 or 1/1 if you prefer */
-}
-
-.photo-frame figcaption {
-  position: absolute;
-  left: 10px;
-  bottom: 10px;
-  padding: 6px 10px;
-  font-size: 12px;
-  color: #fff;
-  background: rgba(0,0,0,0.35);
-  backdrop-filter: blur(2px);
-  border-radius: 8px;
-}
-
-/* Responsive stacking */
-@media (max-width: 980px) {
-  .summary-grid { grid-template-columns: 1fr; }
-  .photo-frame img { aspect-ratio: auto; max-height: 360px; object-fit: cover; }
-}
-
-
-/* Smooth scrolling + anchor offset so headings aren't hidden by the header */
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: var(--anchor-offset);
-}
-
-/* When an element is the target of a #hash jump, keep a margin for the header */
-.proj-section {
-  scroll-margin-top: var(--anchor-offset);
 }
 
 .summary-grid {
@@ -685,6 +791,12 @@ html {
   align-items: center;
 }
 
+.summary-copy {
+  max-width: 62ch;
+  font-size: 1.0rem;
+  line-height: 1.2;
+}
+
 .pill-group {
   display: flex;
   flex-wrap: wrap;
@@ -692,7 +804,16 @@ html {
   margin-top: 10px;
 }
 
-/* Framed image styling */
+.pill {
+  display: inline-block;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--edge);
+  background: #fff;
+}
+
+/* ============ Photo Frame ============ */
 .photo-frame {
   position: relative;
   border-radius: 14px;
@@ -721,20 +842,18 @@ html {
   backdrop-filter: blur(3px);
 }
 
-@media (max-width: 980px) {
-  .summary-grid { grid-template-columns: 1fr; }
-  .photo-frame img { aspect-ratio: auto; max-height: 340px; object-fit: cover; }
+/* ============ Project Sections ============ */
+.proj-section {
+  scroll-margin-top: var(--anchor-offset);
 }
 
-
-/* Make problem photo wider instead of taller */
 .proj-grid.problem-grid {
-  grid-template-columns: 1.2fr 1fr; /* image section gets more width */
+  grid-template-columns: 1.2fr 1fr;
   align-items: center;
 }
 
 .proj-media.wide {
-  min-height: 320px;  /* moderate height */
+  min-height: 320px;
 }
 
 .proj-media.wide img {
@@ -744,7 +863,21 @@ html {
   border-radius: 12px;
 }
 
-/* Figure caption styling for all project media */
+.proj-media,
+.proj-hero-media {
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.proj-media img,
+.proj-media video,
+.proj-hero-media img,
+.proj-hero-media video {
+  border-radius: 14px;
+  object-fit: cover;
+  display: block;
+}
+
 .proj-media figcaption {
   position: absolute;
   bottom: 10px;
@@ -757,21 +890,19 @@ html {
   backdrop-filter: blur(3px);
 }
 
-
-/* ===== Return Button Styles ===== */
-/* ===== Return Button Styles ===== */
+/* ============ Return Button ============ */
 .return-bar {
   width: 100%;
   max-width: var(--max-width);
   margin: 16px auto 0;
   padding: 0 0px;
-  text-align: left; /* aligns the button to the left edge */
+  text-align: left;
 }
 
 .btn-return {
   display: inline-block;
   padding: 10px 18px;
-  background-color: #111; /* black button */
+  background-color: #111;
   color: #fff;
   border-radius: 8px;
   font-weight: 600;
@@ -781,10 +912,11 @@ html {
 }
 
 .btn-return:hover {
-  background-color: #333; /* slightly lighter black on hover */
+  background-color: #333;
   transform: translateY(-1px);
 }
-/* PDF preview blocks (match resume look with top controls) */
+
+/* ============ PDF Preview Blocks ============ */
 .pdf-block {
   border: 1px solid var(--edge);
   border-radius: 12px;
@@ -819,8 +951,8 @@ html {
   padding: 8px 14px;
   border-radius: 999px;
   text-decoration: none;
-  border: 2px solid #b97784;     /* pink outline */
-  color: #b97784;                 /* pink text */
+  border: 2px solid #b97784;
+  color: #b97784;
   background: transparent;
   font-weight: 600;
   transition: transform .15s ease, filter .15s ease, background .15s ease, color .15s ease;
@@ -833,7 +965,7 @@ html {
 }
 
 .pdf-btn.primary {
-  background: #b97784;            /* filled pink like your resume screenshot */
+  background: #b97784;
   color: #fff;
 }
 
@@ -845,26 +977,64 @@ html {
   width: 100%;
   border: none;
   display: block;
-  background: #eee; /* subtle while loading */
+  background: #eee;
 }
 
-/* === GERD PAGE === */
+/* ============ Responsive Design ============ */
+@media (max-width: 980px) {
+  .work-feature {
+    padding: 20px 20px 30px;
+  }
 
-/* === Rounded Photos for Consistent Aesthetics === */
-.proj-media,
-.proj-hero-media {
-  border-radius: 14px;
-  overflow: hidden;
+  .home .landing-wrap {
+    grid-template-columns: 1fr;
+  }
+
+  .home .avatar {
+    width: 180px;
+    height: 180px;
+  }
+
+  .work-feature,
+  .work-feature.invert {
+    grid-template-columns: 1fr;
+  }
+
+  .work-feature__text {
+    order: 2;
+  }
+
+  .work-feature__media {
+    order: 1;
+    min-height: 240px;
+  }
+
+  .featured-wrap {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .featured-hero {
+    min-height: 300px;
+  }
+
+  .featured-sidebar {
+    position: relative;
+    min-height: 400px;
+  }
+
+  .featured-project-img {
+    width: 180px;
+    height: 180px;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .photo-frame img {
+    aspect-ratio: auto;
+    max-height: 340px;
+    object-fit: cover;
+  }
 }
-
-.proj-media img,
-.proj-media video,
-.proj-hero-media img,
-.proj-hero-media video {
-  border-radius: 14px; /* matches overall design */
-  object-fit: cover;
-  display: block;
-}
-
-/* Optional: if you ever want perfect circles, switch to border-radius: 50%; */
-

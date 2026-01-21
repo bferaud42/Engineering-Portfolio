@@ -5,15 +5,15 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Works | Brandon Feraud-Solorzano</title>
-  <link rel="stylesheet" href="style.css?v=4"" />
+  <link rel="stylesheet" href="style.css?v=4" />
 </head>
 
-<body class=" works-large">
+<body class="works-large">
   <div class="page" role="main">
     <header class="site-header">
       <div class="brand">
         <div class="brand-name">Brandon Feraud-Solorzano</div>
-        <div class="brand-sub"> Cornell University • B.S. Mechanical Engineering • M.Eng. Mechanical Engineering</div>
+        <div class="brand-sub">Cornell University • B.S. Mechanical Engineering • M.Eng. Mechanical Engineering</div>
       </div>
       <nav class="primary-nav" aria-label="Primary navigation">
         <a href="index.html">Home</a>
@@ -25,8 +25,76 @@
     </header>
 
     <main>
+      <!-- Featured Projects Section -->
+      <section class="featured-works">
+        <div class="section-header">
+          <h2>Featured Works</h2>
+          <p class="muted">Highlighted engineering projects with innovative solutions</p>
+        </div>
+
+        <div class="featured-wrap">
+          <!-- Hero Slideshow -->
+          <div class="featured-bg-blur" id="featuredBgBlur"></div>
+          <div class="featured-hero" id="featuredSlideshow">
+            <div class="slides">
+              <img src="photos/PH_Sample.png" alt="Project Hephaesas" class="active" />
+              <img src="photos/Clippy_CAD.png" alt="Clippy Project" />
+              <img src="photos/PlantBox_CAD.png" alt="IoT Plant Enclosure" />
+            </div>
+
+            <div class="featured-overlay">
+              <h1 class="featured-title" id="featuredTitle">Project Hephaesas</h1>
+              <p class="featured-subtitle" id="featuredSubtitle">Automating Mechanical CAD Design</p>
+            </div>
+
+            <div class="slideshow-dots" id="slideshowDots">
+                <span class="dot active" data-index="0"></span>
+                <span class="dot" data-index="1"></span>
+                <span class="dot" data-index="2"></span>
+  </div>
+          </div>
+
+          <!-- Sidebar with changing content -->
+          <aside class="featured-sidebar">
+            <!-- Project 1: Hephaesas -->
+            <div class="sidebar-content active" data-project="0">
+              <div class="featured-info">
+                <h3>Project Hephaesas</h3>
+                <p><strong>Master's Thesis</strong></p>
+                <p>Automating mechanical CAD through AI-enhanced design workflows</p>
+                <p class="muted" style="font-size: 0.9rem;">Advisor: Nikolaos Bouklas</p>
+              </div>
+              <a class="featured-btn" href="under_construction.html">Explore Project</a>
+            </div>
+
+            <!-- Project 2: Clippy -->
+            <div class="sidebar-content" data-project="1">
+              <div class="featured-info">
+                <h3>Clippy</h3>
+                <p><strong>Senior Design Project</strong></p>
+                <p>A lecture desk surface extender for enhanced classroom ergonomics</p>
+                <p class="muted" style="font-size: 0.9rem;">Advisors: Robert Shepherd, Sirietta Simoncini</p>
+              </div>
+              <a class="featured-btn" href="under_construction.html">Explore Project</a>
+            </div>
+
+            <!-- Project 3: Wireless Power -->
+            <div class="sidebar-content" data-project="2">
+              <div class="featured-info">
+                <h3>Inductive Power Transfer</h3>
+                <p><strong>Research Project</strong></p>
+                <p>Modeling wireless charging systems for electric bus infrastructure</p>
+                <p class="muted" style="font-size: 0.9rem;">Advisor: Oliver Gao</p>
+              </div>
+              <a class="featured-btn" href="under_construction.html">Explore Project</a>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Academic Projects Section -->
       <section class="works-header">
-        <h1>Works</h1>
+        <h1>Academic Projects</h1>
         <p class="muted">Selected engineering projects. Each card opens a dedicated page.</p>
       </section>
 
@@ -35,16 +103,15 @@
         <div class="work-feature__text">
           <h2><em>Project Hephaesas:</em> Automating Mechanical CAD</h2>
           <p class="work-feature__sub">Master's of Engineering Thesis</p>
-          <p class="work-feature__meta">Advisor: Nikolaos Bouklas </p>
-          <p class="work-feature__meta-line">Cornell University</p>
+          <p class="work-feature__meta">Advisor: Nikolaos Bouklas, Cornell University</p>
           <a href="under_construction.html" class="btn big">Learn more</a>
         </div>
         <div class="work-feature__media">
-          <img src="photos/project_h_1.jpg" alt="Project Hephaesas CAD automation" loadings="lazy" />
+          <img src="photos/PH_Sample.png" alt="Project Hephaesas CAD automation" loading="lazy" />
         </div>
       </article>
 
-      <!-- Feature 2 (image on the left by using .invert)-->
+      <!-- Feature 2 -->
       <article class="work-feature invert">
         <div class="work-feature__text">
           <h2><em>Clippy:</em> A Lecture Desk Surface Extender</h2>
@@ -53,50 +120,88 @@
           <a href="under_construction.html" class="btn big">Learn more</a>
         </div>
         <div class="work-feature__media">
-          <img src="photos/clippy_group.jpg" alt="Clippy Team at the Final Showcase" loading="lazy" />
+          <img src="photos/Clippy_CAD.png" alt="Clippy CAD" loading="lazy" />
+        </div>
+      </article>
+
+      <!-- Feature 3 -->
+      <article class="work-feature">
+        <div class="work-feature__text">
+          <h2>IoT Plant Enclosure</h2>
+          <p class="work-feature__sub">Class Project</p>
+          <p class="work-feature__meta">Cornell University</p>
+          <a href="under_construction.html" class="btn big">Learn more</a>
+        </div>
+        <div class="work-feature__media">
+          <img src="photos/PlantBox_CAD.png" alt="Plant Box CAD" loading="lazy" />
+        </div>
+      </article>
+
+      <!-- Feature 4 -->
+      <article class="work-feature invert">
+        <div class="work-feature__text">
+          <h2>Inductive Power Transfer Modeling for Electric Buses</h2>
+          <p class="work-feature__sub">Research Project</p>
+          <p class="work-feature__meta">Advisor: Oliver Gao, Cornell University</p>
+          <a href="under_construction.html" class="btn big">Learn more</a>
+        </div>
+        <div class="work-feature__media">
+          <img src="photos/wpt.png" alt="Model Picture" loading="lazy" />
+        </div>
+      </article>
+
+      <!-- Feature 5 -->
+      <article class="work-feature">
+        <div class="work-feature__text">
+          <h2><em>Hydrogen Fuel Cell Aircraft Optimization</em></h2>
+          <p class="work-feature__sub">Class Project</p>
+          <p class="work-feature__meta">Advisor: Maha Haji, Alaa Ahmed, Cornell University</p>
+          <a href="under_construction.html" class="btn big">Learn more</a>
+        </div>
+        <div class="work-feature__media">
+          <img src="photos/HFCA_CAD.png" alt="Final Design Recommendation for Hydrogen Fuel Cell Aircraft" loading="lazy" />
+        </div>
+      </article>
+
+      <!-- Feature 6 -->
+      <article class="work-feature invert">
+        <div class="work-feature__text">
+          <h2>Wind Blade Design and Testing</h2>
+          <p class="work-feature__sub">Fluids Lab Project</p>
+          <p class="work-feature__meta">Cornell University</p>
+          <a href="under_construction.html" class="btn big">Learn more</a>
+        </div>
+        <div class="work-feature__media">
+          <img src="photos/WB_CAD.png" alt="Wind Blade CAD" loading="lazy" />
+        </div>
+      </article>
+
+      <!-- Feature 7 -->
+      <article class="work-feature">
+        <div class="work-feature__text">
+          <h2><em>Cardboard Crucifixion:</em> Cube Craze Robot</h2>
+          <p class="work-feature__sub">Class Project</p>
+          <p class="work-feature__meta">Cornell University</p>
+          <a href="under_construction.html" class="btn big">Learn more</a>
+        </div>
+        <div class="work-feature__media">
+          <img src="photos/CC_CAD.png" alt="Plant Box CAD" loading="lazy" />
+        </div>
+      </article>
+
+      <!-- Feature 8 -->
+      <article class="work-feature invert">
+        <div class="work-feature__text">
+          <h2>Scotch-Yoke Water Pump</h2>
+          <p class="work-feature__sub">Class Project</p>
+          <p class="work-feature__meta"> Cornell University</p>
+          <a href="under_construction.html" class="btn big">Learn more</a>
+        </div>
+        <div class="work-feature__media">
+          <img src="photos/SY_CAD.png" alt="Water Pump CAD" loading="lazy" />
         </div>
       </article>
     </main>
-
-    <!-- Feature 3 -->
-    <article class="work-feature">
-      <div class="work-feature__text">
-        <h2>Inductive Power Transfer Modeling for Electric Buses</h2>
-        <p class="work-feature__sub">Research Project</p>
-        <p class="work-feature__meta">Advisor: Oliver Gao, Cornell University</p>
-        <a href="under_construction.html" class="btn big">Learn more</a>
-      </div>
-      <div class="work-feature__media">
-        <img src="photos/wpt.png" alt="Model Picture" loading="lazy" />
-      </div>
-    </article>
-
-<!-- NOTE TO ANGELA: UNCOMMENT THIS WHEN YOU WANT TO ADD THE REST
-
-    <article class="work-feature invert">
-      <div class="work-feature__text">
-        <h2><em>Affect & Cognition Lab:</em> Parkinson's Research Lab</h2>
-        <p class="work-feature__sub">Academic Research</p>
-        <p class="work-feature__meta">Advisor: Adam Anderson, Cornell University</p>
-        <a href="aclab.html" class="btn big">Learn more</a>
-      </div>
-      <div class="work-feature__media">
-        <img src="endalz.jpeg" alt="EasiStitch automated suturing prototype" loading="lazy" />
-      </div>
-    </article>
-
-    <article class="work-feature">
-      <div class="work-feature__text">
-        <h2><em>Academic Projects:</em> Undergraduate & Graduate</h2>
-        <p class="work-feature__sub">BME & MAE Coursework</p>
-        <p class="work-feature__meta">Cornell University</p>
-        <a href="classes.html" class="btn big">Learn more</a>
-      </div>
-      <div class="work-feature__media">
-        <img src="rod.png" alt="EasiStitch automated suturing prototype" loading="lazy" />
-      </div>
-    </article>
---> 
 
     <footer class="site-footer">
       <div>© Brandon Feraud-Solorzano — Built with HTML &amp; CSS</div>
@@ -115,16 +220,90 @@
   </div>
 
   <script>
-    // mobile menu
+    // Mobile menu
     const menuBtn = document.getElementById('menuBtn');
     const mobileNav = document.getElementById('mobileNav');
-    function openMenu() { mobileNav.classList.add('open'); mobileNav.setAttribute('aria-hidden', 'false'); menuBtn.setAttribute('aria-expanded', 'true'); }
-    function closeMenu() { mobileNav.classList.remove('open'); mobileNav.setAttribute('aria-hidden', 'true'); menuBtn.setAttribute('aria-expanded', 'false'); }
+    function openMenu() { 
+      mobileNav.classList.add('open'); 
+      mobileNav.setAttribute('aria-hidden', 'false'); 
+      menuBtn.setAttribute('aria-expanded', 'true'); 
+    }
+    function closeMenu() { 
+      mobileNav.classList.remove('open'); 
+      mobileNav.setAttribute('aria-hidden', 'true'); 
+      menuBtn.setAttribute('aria-expanded', 'false'); 
+    }
     if (menuBtn) {
       menuBtn.addEventListener('click', () => mobileNav.classList.contains('open') ? closeMenu() : openMenu());
       window.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
     }
-  </script>
-  </body>
+
+    // Featured Projects Slideshow with synchronized sidebar
+    const slides = document.querySelectorAll('#featuredSlideshow .slides img');
+    const sidebarContents = document.querySelectorAll('.sidebar-content');
+    const featuredTitle = document.getElementById('featuredTitle');
+    const featuredSubtitle = document.getElementById('featuredSubtitle');
+    const dots = document.querySelectorAll('.dot');
+    
+    const projectData = [
+      {
+        title: 'Project Hephaesas',
+        subtitle: 'Automating Mechanical CAD Design'
+      },
+      {
+        title: 'Clippy',
+        subtitle: 'Lecture Desk Surface Extender'
+      },
+      {
+        title: 'Inductive Power Transfer',
+        subtitle: 'Wireless Charging for Electric Buses'
+      }
+    ];
+
+    let currentIndex = 0;
+
+    function changeSlide(index) {
+      // Fade out current slide and sidebar
+      slides[currentIndex].classList.remove('active');
+      sidebarContents[currentIndex].classList.remove('active');
+      dots[currentIndex].classList.remove('active');
+      
+      // Move to next (or jump to specific index if provided)
+    if (index !== undefined) {
+      currentIndex = index;
+    } else {
+      currentIndex = (currentIndex + 1) % slides.length;
+    }
+      
+      // Fade in new slide and sidebar
+      slides[currentIndex].classList.add('active');
+      sidebarContents[currentIndex].classList.add('active');
+      dots[currentIndex].classList.add('active');
+      
+     // Update overlay text (if you still have it)
+    if (featuredTitle) {
+      featuredTitle.textContent = projectData[currentIndex].title;
+      featuredSubtitle.textContent = projectData[currentIndex].subtitle;
+    }
+    
+    // Update the blurred background
+    const bgBlur = document.getElementById('featuredBgBlur');
+    bgBlur.style.backgroundImage = `url('${slides[currentIndex].src}')`;
+}
+  
+  // **ADD THIS: Click handlers for dots**
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => changeSlide(index));
+  });
+  
+  // Set initial background on page load
+  document.getElementById('featuredBgBlur').style.backgroundImage = `url('${slides[0].src}')`;
+  
+  // Auto-rotate every 5 seconds
+  if (slides.length) {
+    setInterval(() => changeSlide(), 5000);
+  }
+</script>
+</body>
 
 </html>
