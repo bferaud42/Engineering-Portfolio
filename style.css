@@ -389,15 +389,18 @@ h1 {
 }
 
 .work-feature {
-  display: grid;
+display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 28px;
   align-items: stretch;
-  background: #8e52599e;
+  background: #a5555e57;
   border-radius: 14px;
   overflow: hidden;
-  margin: 32px 0 50px;
+  margin: 32px auto 50px;
   padding: 28px 28px 40px;
+  max-width: 1400px;
+  width: 100%;
+  box-shadow: 0 8px 20px rgba(76, 112, 90, 0.6)
 }
 
 .work-feature.invert {
@@ -413,7 +416,7 @@ h1 {
 }
 
 .work-feature__text {
-  background: #edc1c6e0;
+  /*background: #6386712f;*/
   border-radius: 12px;
   padding: 32px 28px;
   display: flex;
@@ -422,7 +425,7 @@ h1 {
   align-items: center;
   text-align: center;
   height: auto;
-  align-self: start;
+  align-self: center;
 }
 
 .work-feature__text h2 {
@@ -486,7 +489,7 @@ body.about {
   align-items: stretch;
   min-height: 40vh;
   margin-top: 40px;
-  background: #79a189;
+  background: #79a189be;
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 8px 20px #4c705a9a;
@@ -983,7 +986,7 @@ body.about {
 /* ============ Responsive Design ============ */
 @media (max-width: 980px) {
   .work-feature {
-    padding: 20px 20px 30px;
+    padding: 28px 20px 28px;
   }
 
   .home .landing-wrap {

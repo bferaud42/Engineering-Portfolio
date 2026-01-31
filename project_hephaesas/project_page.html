@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Hephaesas | Brandon Feraud-Solorzano</title>
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+        /* Page-local styles so we don't disturb the rest of the site */
+        :root {
+            --ink: var(--text);
+            --mutedInk: var(--muted);
+            --edge: #e5e7eb;
+        }
+
+        .proj-hero {
+            background: #72ab89;
+            color: #ffffff;
+            margin-top: 45px;
+            border-radius: 14px;
+            padding: 28px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, .25);
+        }
+
+        .proj-hero h1 {
+            margin: 0 0 8px 0;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(28px, 5vw, 54px);
+            line-height: 1.02;
+        }
+
+        .proj-hero .sub {
+            margin: 6px 0 0;
+            font-size: clamp(14px, 1.8vw, 18px);
+            color: rgba(255, 255, 255, .9);
+        }
+
+        .proj-hero .meta {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .proj-badge {
+            background: rgba(255, 255, 255, .12);
+            border: 1px solid rgba(255, 255, 255, .35);
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: .02em;
+        }
+
+        .proj-hero-media {
+            border-radius: 12px;
+            overflow: hidden;
+            background: #335942;
+            min-height: 260px;
+            position: relative;
+        }
+
+        .proj-hero-media img,
+        .proj-hero-media video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .proj-layout {
+            display: grid;
+            grid-template-columns: minmax(220px, 280px) 1fr;
+            gap: 28px;
+            margin-top: 26px;
+        }
+
+        .proj-card {
+            background: #fff;
+            border: 1px solid var(--edge);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
+            padding: 20px;
+        }
+
+        .proj-card h2 {
+            margin: 0 0 10px;
+            font-size: 20px;
+        }
+
+        .proj-card p {
+            margin: 0 0 10px;
+            line-height: 1.6;
+        }
+
+        .proj-toc {
+            position: sticky;
+            top: 16px;
+            align-self: start;
+        }
+
+        .proj-toc a {
+            display: block;
+            text-decoration: none;
+            color: var(--mutedInk);
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        .proj-toc a:hover {
+            color: var(--ink);
+            background: #f7f7f9;
+        }
+
+        .proj-section {
+            background: #fff;
+            border: 1px solid var(--edge);
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .06);
+        }
+
+        .proj-section h3 {
+            margin: 0 0 10px;
+            font-size: 18px;
+        }
+
+        .proj-specs {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .proj-spec {
+            border: 1px dashed var(--edge);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .proj-spec .k {
+            color: var(--mutedInk);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
+
+        .proj-spec .v {
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .pill {
+            display: inline-block;
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid var(--edge);
+            background: #fafafc;
+        }
+
+        /* Reusable media blocks */
+        .proj-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1.5fr;
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .proj-media {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            min-height: 220px;
+        }
+
+        .proj-media img,
+        .proj-media video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* New helper: use object-fit: contain to show whole image */
+        .proj-media.contain img,
+        .proj-media.contain video {
+            object-fit: contain;
+            background: #f7f7f9;
+        }
+
+        /* ---- Summary side-by-side (NEW) ---- */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .summary-media {
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f7f7f9;
+        }
+
+        .summary-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            max-height: 420px;
+        }
+
+        /* Slightly larger media at request */
+        .larger-media {
+            min-height: 420px;
+        }
+
+        /* for Problem & Approach image */
+        .slightly-larger-media {
+            min-height: 460px;
+        }
+
+        /* for Mechanism image */
+
+        .proj-cta {
+            text-align: center;
+            margin: 22px 0 0;
+        }
+
+        .btn.pink {
+            background: #d77a8f;
+            color: #fff;
+            border: none;
+        }
+
+        .btn.pink:hover {
+            filter: brightness(.95);
+        }
+
+        .btn.pink.outline {
+            background: transparent;
+            color: #d77a8f;
+            border: 2px solid #d77a8f;
+        }
+
+        .btn.pink.outline:hover {
+            background: #d77a8f;
+            color: #fff;
+        }
+
+        .proj-note {
+            color: var(--mutedInk);
+            font-size: 13px;
+        }
+
+        @media (max-width:980px) {
+            .proj-hero {
+                grid-template-columns: 1fr;
+            }
+
+            .proj-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .proj-grid,
+            .proj-specs {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-media img {
+                max-height: 320px;
+            }
+        }
+
+        /* 3D Gallery Styles */
+        .gallery-3d-container {
+            min-height: 600px;
+        }
+
+        .gallery-3d-content {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 600px;
+        }
+
+        .model-sidebar-3d {
+            background: #f9f9f9;
+            border-right: 1px solid var(--edge);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .model-button-3d {
+            background: white;
+            border: 2px solid var(--edge);
+            border-radius: 24px;
+            padding: 16px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            color: var(--ink);
+        }
+
+        .model-button-3d:hover {
+            border-color: #674148;
+            background: #fafafa;
+            transform: translateX(4px);
+        }
+
+        .model-button-3d.active {
+            background: #674148;
+            color: white;
+            border-color: #674148;
+        }
+
+        .viewer-area-3d {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .model-header-3d {
+            background: white;
+            border-bottom: 2px solid var(--edge);
+            padding: 24px 32px;
+        }
+
+        .model-title-3d {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0 0 8px 0;
+        }
+
+        .model-description-3d {
+            font-size: 15px;
+            color: #6b7280;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .model-viewer-3d {
+            flex: 1;
+            position: relative;
+            background: linear-gradient(135deg, #f0f0f0 0%, #e5e5e5 100%);
+            min-height: 500px;
+        }
+
+        #canvas-container-3d {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .viewer-controls-3d {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px 20px;
+            border-radius: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-size: 13px;
+            color: #666;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            .gallery-3d-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .model-sidebar-3d {
+                border-right: none;
+                border-bottom: 1px solid var(--edge);
+                flex-direction: row;
+                overflow-x: auto;
+                padding: 16px;
+            }
+            
+            .model-button-3d {
+                min-width: 120px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page" role="main">
+        <!-- Header copied from your site for consistency -->
+        <header class="site-header">
+            <div class="brand">
+                <div class="brand-name">Brandon Feraud-Solorzano</div>
+                <div class="brand-sub">Cornell University • B.S. Mechanical Engineering • M.Eng. Mechanical Engineering
+                </div>
+            </div>
+            <nav class="primary-nav" aria-label="Primary navigation">
+                <a href="../index.html">Home</a>
+                <a href="../about.html">About</a>
+                <a href="../works.html" class="active">Works</a>
+                <a href="../resume.html">Resume</a>
+            </nav>
+            <button class="menu-btn" aria-controls="mobile-nav" aria-expanded="false" id="menuBtn">☰</button>
+        </header>
+
+        <!-- Mobile nav -->
+        <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+            <div class="box" role="dialog" aria-modal="true">
+                <a href="../index.html" onclick="closeMenu()">Home</a>
+                <a href="../works.html" onclick="closeMenu()">Works</a>
+                <a href="../about.html" onclick="closeMenu()">About</a>
+                <a href="../resume.html" onclick="closeMenu()">Resume</a>
+                <button class="close-btn" onclick="closeMenu()">Close</button>
+            </div>
+        </div>
+
+        <div class="return-bar">
+            <a href="../works.html" class="btn-return">← Return to Works Page</a>
+        </div>
+
+        <!-- Hero -->
+        <section class="proj-hero">
+            <div>
+                <h1><em>Project Hephaesas:</em> A Text-to-CAD Workflow</h1>
+                <p class="sub">An agentic framework for automating mechanical CAD that reduces iteration time and enables last-mile editability</p>
+                <div class="meta">
+                    <span class="proj-badge">Role: Project Owner</span>
+                    <span class="proj-badge">August 2025 - Current</span>
+                </div>
+            </div>
+            <div class="proj-hero-media">
+                <img src="pj_logo_nbg.png" alt="Project Hephaesas logo" />
+            </div>
+        </section>
+
+        <!-- Body layout -->
+        <div class="proj-layout">
+            <!-- Left column: TOC and Specs -->
+            <aside class="proj-card proj-toc">
+                <h2 style="margin-bottom:8px;">On this page</h2>
+                <nav>
+                    <a href="#summary">Summary</a>
+                    <a href="#problem">Problem</a>
+                    <a href="#mechanism">Approach</a>
+                    <a href="#testing">Testing & Results</a>
+                    <a href="#gallery">Examples</a>
+                </nav>
+                <hr style="border:none; border-top:1px solid var(--edge); margin:14px 0;" />
+                <div class="proj-specs">
+                    <div class="proj-spec">
+                        <div class="k">Advisor</div>
+                        <div class="v">Nikolaos Bouklas</div>
+                    </div>
+                    <div class="proj-spec">
+                        <div class="k">Role</div>
+                        <div class="v">Project Owner</div>
+                    </div>
+                    <div class="proj-spec">
+                        <div class="k">Timeline</div>
+                        <div class="v">August 2025 - Current</div>
+                    </div>
+                    <div class="proj-spec">
+                        <div class="k">Tools</div>
+                        <div class="v">Python, Docker, AutoGen 2.0, CadQuery, OpenAI API</div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right column: Content sections -->
+            <div>
+                <!-- SUMMARY with side photo (NEW) -->
+                <section id="summary" class="proj-section summary-card">
+                    <h3>Summary</h3>
+                    <div class="summary-grid">
+                        <div class="summary-copy">
+                            <p>Project Hephaesas is an AI-assisted workflow designed to speed up hardware design iteration and facilitate design exploration. It works best when a design is specified and specific dimensions are given.
+                            </p>
+
+                            <p>Featuring a multi-agent architecture, the workflow attempts to understand the intent of the prompt and generate a CAD model. It can be exported as a .step file to view in Fusion and SolidWorks.
+
+                            </p>
+
+                            <div class="pill-group">
+                                <span class="pill">Hardware Product Design</span>
+                                <span class="pill">AI-Assisted Workflow</span>
+                                <span class="pill">CAD Modeling</span>
+                            </div>
+                        </div>
+
+                        <!-- Swap the src to any image you prefer -->
+                         <figure class="photo-frame">
+                            <img src="../photos/project_h_1.jpg" alt="Brandon showing off Project Hephaesas" />
+                        </figure>
+                    </div>
+                </section>
+
+
+                <!-- PROBLEM: bigger photo, full image visible -->
+                <section id="problem" class="proj-section">
+                    <h3>Problem</h3>
+                    <div class="proj-grid problem-grid" style="gap: 20px;">
+                        <div>
+                            <ul>
+                                <li><strong>CAD sits at the center of the iteration loop:</strong> “Design” is the point where ideas become manufacturable geometry and where every 
+                                    downstream step (build, testing/analysis, stakeholder review) gets anchored. Because feedback often requires changing dimensions, interfaces, 
+                                    packaging constraints, or manufacturability features, teams repeatedly return to CAD—making CAD a rate-limiting step for iteration speed and time-to-market.</li>
+
+                                <li><strong>Today’s CAD workflows are optimized for experts, not iteration:</strong> modern tools assume strong 3D intuition and specialized training, rely on 
+                                    click-heavy GUIs, and create friction for quick conceptual exploration. As design complexity grows, the time cost scales with it—especially when multiple 
+                                    stakeholders need revisions and handoffs.</li>
+
+                                <li><strong>Interoperability and lock-in amplify the cost of change:</strong> moving between tools or teams often strips design intent (feature history, 
+                                    parametric relationships), forcing rework and slowing collaboration. The result is that early-stage ideas—where speed matters most—get bottlenecked
+                                    by CAD overhead, contributing to a pipeline where most concepts never survive long enough to ship.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Use figure so figcaption works -->
+                    </div>
+                </section>
+
+
+
+                <!-- Solution: slightly larger image -->
+                <section id="mechanism" class="proj-section">
+                    <h3>Approach</h3>
+                    <div>
+                            <p><strong>Hardware-Engineering Mindset:</strong> treat CAD generation like a designed system—define constraints, 
+                                enforce structure, and prioritize reliability over one-shot outputs.</p>
+                            <p><strong>First-Principles Task Decomposition:</strong> map the minimum path from requirements → constraints → 
+                                executable geometry, reducing ambiguity and preventing “creative” but unusable models.</p>
+                            <p><strong>Multi-Agent Collaboration:</strong> break down the CAD generation task into specialized agents (e.g.,
+                        </div>
+                </section>
+
+                <section id="testing" class="proj-section">
+                    <h3>Testing &amp; Results</h3>
+                    <div>
+                        <p><strong>IRB Pilot Study (SUNY Cortland Biomechanics Lab):</strong></p>
+                        <ul>
+                            <li>Qualitative comfort/setup feedback recorded with participant consent</li>
+                            <li>Mobility Tasks: No-Motion (baseline), straight walking, left/right
+                            turns, sit-to-stand, stand-to-sit, walking up/down stairs</li>
+                            <li>Data collection via an accelerometer attatched to custom wristband</li>
+                        </ul>
+                        
+                        <p><strong>Outcome:</strong></p>
+                        <ul>
+                            <li>Up to 12.25% maximum decrease in tremor propagation in the x-direction
+                            with SteadyStride vs. a standard cane (subset of viable participants)</li>
+                            <li>Validation of device mechanisms</li>
+                        </ul>
+                    </div>
+                </section>
+
+
+        <footer class="site-footer">
+            <div>© Brandon Feraud-Solorzano – Built with HTML &amp; CSS</div>
+        </footer>
+    </div>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        function openMenu() { mobileNav.classList.add('open'); mobileNav.setAttribute('aria-hidden', 'false'); menuBtn.setAttribute('aria-expanded', 'true'); }
+        function closeMenu() { mobileNav.classList.remove('open'); mobileNav.setAttribute('aria-hidden', 'true'); menuBtn.setAttribute('aria-expanded', 'false'); }
+        if (menuBtn) {
+            menuBtn.addEventListener('click', () => { mobileNav.classList.contains('open') ? closeMenu() : openMenu(); });
+            window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+        }
+    </script>
+
+</body>
+
+</html>

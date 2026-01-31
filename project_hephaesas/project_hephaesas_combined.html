@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Hephaesas | Brandon Feraud-Solorzano</title>
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+        /* Page-local styles so we don't disturb the rest of the site */
+        :root {
+            --ink: var(--text);
+            --mutedInk: var(--muted);
+            --edge: #e5e7eb;
+            --gallery-main: #5b202b;
+            --gallery-accent: #996260;
+        }
+
+        .proj-hero {
+            background: #72ab89;
+            color: #ffffff;
+            margin-top: 45px;
+            border-radius: 14px;
+            padding: 28px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, .25);
+        }
+
+        .proj-hero h1 {
+            margin: 0 0 8px 0;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(28px, 5vw, 54px);
+            line-height: 1.02;
+        }
+
+        .proj-hero .sub {
+            margin: 6px 0 0;
+            font-size: clamp(14px, 1.8vw, 18px);
+            color: rgba(255, 255, 255, .9);
+        }
+
+        .proj-hero .meta {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .proj-badge {
+            background: rgba(255, 255, 255, .12);
+            border: 1px solid rgba(255, 255, 255, .35);
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: .02em;
+        }
+
+        .proj-hero-media {
+            border-radius: 12px;
+            overflow: hidden;
+            background: #335942;
+            min-height: 260px;
+            position: relative;
+        }
+
+        .proj-hero-media img,
+        .proj-hero-media video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .proj-layout {
+            display: grid;
+            grid-template-columns: minmax(220px, 280px) 1fr;
+            gap: 28px;
+            margin-top: 26px;
+        }
+
+        .proj-card {
+            background: #fff;
+            border: 1px solid var(--edge);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
+            padding: 20px;
+        }
+
+        .proj-card h2 {
+            margin: 0 0 10px;
+            font-size: 20px;
+        }
+
+        .proj-card p {
+            margin: 0 0 10px;
+            line-height: 1.6;
+        }
+
+        .proj-toc {
+            position: sticky;
+            top: 16px;
+            align-self: start;
+        }
+
+        .proj-toc a {
+            display: block;
+            text-decoration: none;
+            color: var(--mutedInk);
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .proj-toc a:hover {
+            color: var(--ink);
+            background: #f7f7f9;
+        }
+
+        .proj-section {
+            background: #fff;
+            border: 1px solid var(--edge);
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .06);
+        }
+
+        .proj-section h3 {
+            margin: 0 0 10px;
+            font-size: 18px;
+        }
+
+        .proj-specs {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .proj-spec {
+            border: 1px dashed var(--edge);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .proj-spec .k {
+            color: var(--mutedInk);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
+
+        .proj-spec .v {
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .pill {
+            display: inline-block;
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid var(--edge);
+            background: #fafafc;
+        }
+
+        /* Reusable media blocks */
+        .proj-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1.5fr;
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .proj-media {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            min-height: 220px;
+        }
+
+        .proj-media img,
+        .proj-media video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* New helper: use object-fit: contain to show whole image */
+        .proj-media.contain img,
+        .proj-media.contain video {
+            object-fit: contain;
+            background: #f7f7f9;
+        }
+
+        /* ---- Summary side-by-side (NEW) ---- */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.55fr;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .summary-media {
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f7f7f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 120px;
+        }
+
+        .summary-media img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .pill-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .photo-frame {
+            margin: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, .12);
+            background: #f7f7f9;
+        }
+
+        .photo-frame img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .problem-grid .proj-media {
+            min-height: 320px;
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        /* 3D Gallery Styles */
+        .gallery-container-3d {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            border: 1px solid var(--edge);
+        }
+
+        .gallery-header-3d {
+            background: var(--gallery-main);
+            color: white;
+            padding: 24px 32px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .gallery-3d-content {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 600px;
+        }
+
+        /* Left sidebar with model buttons */
+        .model-sidebar-3d {
+            background: #f9f9f9;
+            border-right: 1px solid var(--edge);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .model-button-3d {
+            background: white;
+            border: 2px solid var(--edge);
+            border-radius: 24px;
+            padding: 16px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .model-button-3d:hover {
+            border-color: var(--gallery-main);
+            background: #fafafa;
+            transform: translateX(4px);
+        }
+
+        .model-button-3d.active {
+            background: var(--gallery-accent);
+            color: white;
+            border-color: var(--gallery-accent);
+        }
+
+        /* Right side with viewer */
+        .viewer-area-3d {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .model-header-3d {
+            background: white;
+            border-bottom: 2px solid var(--edge);
+            padding: 24px 32px;
+        }
+
+        .model-title-3d {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0 0 8px 0;
+        }
+
+        .model-description-3d {
+            font-size: 15px;
+            color: #6b7280;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .model-viewer-3d {
+            flex: 1;
+            position: relative;
+            background: linear-gradient(135deg, #f0f0f0 0%, #e5e5e5 100%);
+        }
+
+        #canvas-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .viewer-controls-3d {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            min-width: 345px;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px 20px;
+            border-radius: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-size: 11px;
+            color: #666;
+            backdrop-filter: blur(10px);
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-3d-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .model-sidebar-3d {
+                border-right: none;
+                border-bottom: 1px solid var(--edge);
+                flex-direction: row;
+                overflow-x: auto;
+                padding: 16px;
+            }
+            
+            .model-button-3d {
+                min-width: 120px;
+            }
+
+            .proj-hero {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid,
+            .proj-grid,
+            .solution-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .proj-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page" role="main">
+        <!-- Header copied from your site for consistency -->
+        <header class="site-header">
+            <div class="brand">
+                <div class="brand-name">Brandon Feraud-Solorzano</div>
+                <div class="brand-sub">Cornell University • B.S. Mechanical Engineering • M.Eng. Mechanical Engineering
+                </div>
+            </div>
+            <nav class="primary-nav" aria-label="Primary navigation">
+                <a href="../index.html">Home</a>
+                <a href="../about.html">About</a>
+                <a href="../works.html" class="active">Works</a>
+                <a href="../resume.html">Resume</a>
+            </nav>
+            <button class="menu-btn" aria-controls="mobile-nav" aria-expanded="false" id="menuBtn">☰</button>
+        </header>
+
+        <!-- Mobile nav -->
+        <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+            <div class="box" role="dialog" aria-modal="true">
+                <a href="../index.html" onclick="closeMenu()">Home</a>
+                <a href="../works.html" onclick="closeMenu()">Works</a>
+                <a href="../about.html" onclick="closeMenu()">About</a>
+                <a href="../resume.html" onclick="closeMenu()">Resume</a>
+                <button class="close-btn" onclick="closeMenu()">Close</button>
+            </div>
+        </div>
+
+        <div class="return-bar">
+            <a href="../works.html" class="btn-return">← Return to Works Page</a>
+        </div>
+
+        <!-- Hero -->
+        <section class="proj-hero">
+            <div>
+                <h1><em>Project Hephaesas:</em> A Text-to-CAD Workflow</h1>
+                <p class="sub">A multi-agent system for automating mechanical CAD that reduces iteration time</p>
+                <div class="meta">
+                    <span class="proj-badge">Role: Project Owner</span>
+                    <span class="proj-badge">August 2025 - Current</span>
+                </div>
+            </div>
+            <div class="proj-hero-media">
+                <img src="pj_logo_nbg.png" alt="Project Hephaesas logo" />
+            </div>
+        </section>
+
+        <!-- Body layout -->
+        <div class="proj-layout">
+            <!-- Left column: TOC and Specs -->
+            <aside class="proj-card proj-toc">
+                <h2 style="margin-bottom:8px;">On this page</h2>
+                <nav>
+                    <a href="#summary">Summary</a>
+                    <a href="#problem">Problem</a>
+                    <a href="#mechanism">Approach</a>
+                    <a href="#gallery">Examples</a>
+                    <a href="#testing">Testing & Results</a>
+                    
+                </nav>
+                <hr style="border:none; border-top:1px solid var(--edge); margin:14px 0;" />
+                <div class="proj-specs">
+                    <div class="proj-spec">
+                        <div class="k">Advisor</div>
+                        <div class="v">Nikolaos Bouklas</div>
+                    </div>
+                    <div class="proj-spec">
+                        <div class="k">Role</div>
+                        <div class="v">Project Owner</div>
+                    </div>
+                    <div class="proj-spec">
+                        <div class="k">Timeline</div>
+                        <div class="v">August 2025 - Current</div>
+                    </div>
+                    <div class="proj-spec">
+                        <div class="k">Tools</div>
+                        <div class="v">Python, Docker, AutoGen 2.0, CadQuery, OpenAI API</div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right column: Content sections -->
+            <div>
+                <!-- SUMMARY with side photo -->
+                <section id="summary" class="proj-section summary-card">
+                    <h3>Summary</h3>
+                    <div class="summary-grid">
+                        <div class="summary-copy">
+                            <p>Project Hephaesas is an AI-assisted workflow designed to speed up hardware design iteration and facilitate design exploration. It works best when a design is specified and specific dimensions are given.
+                            </p>
+
+                            <p>Featuring a multi-agent architecture, the workflow attempts to understand the intent of the prompt and generate a CAD model. It can be exported as a .step file to view in Fusion and SolidWorks.
+
+                            </p>
+
+                            <div class="pill-group">
+                                <span class="pill">Hardware Product Design</span>
+                                <span class="pill">AI-Assisted Workflow</span>
+                                <span class="pill">CAD Modeling</span>
+                            </div>
+                        </div>
+
+                        <figure class="photo-frame">
+                            <img src="../photos/project_h_1.jpg" alt="Brandon showing off Project Hephaesas" />
+                        </figure>
+                    </div>
+                </section>
+
+
+                <!-- PROBLEM: full width text -->
+                <section id="problem" class="proj-section">
+                    <h3>Problem</h3>
+                    <div>
+                        <ul>
+                            <li><strong>Steep Learning Curve:</strong> modern tools assume strong 3D intuition and specialized training, rely on 
+                                click-heavy GUIs, and create friction for quick conceptual exploration. Inexperienced users struggle to navigate complex interfaces that slow down their design process.</li>
+                                <br>
+                            <li><strong>Time Complexity:</strong> as a design grows in complexity, the time required to modify and manage CAD models increases significantly. Feedback from stakeholders often requires changing dimensions, interfaces, 
+                                or features on the CAD that must be manually completed by the designer.</li>
+                            <br>
+                            <li><strong>File Format Compatibility:</strong> moving between tools or teams often strips design intent (feature history, 
+                                parametric relationships), forcing rework and slowing collaboration.</li>
+                        </ul>
+                    </div>
+                </section>
+
+
+
+                <!-- Solution: slightly larger image -->
+                <section id="mechanism" class="proj-section">
+                    <h3>Approach</h3>
+                    <div>
+                        <p>To tackle these challenges, I designed Project Hephaesas with three core principles in mind:</p>
+                        <p><strong>Multi-Agent Collaboration:</strong> specialized AI agents that can break down the CAD generation task, communicate design decisions, and iterate on outputs.  </p>
+                        <p><strong>First-Principles Task Decomposition:</strong> AI agents follow a hierarchical approach to turn user intent into valid, executable CAD geometry in as little steps as possible.</p>
+                        <p><strong>Boundary Representation (B-Rep) Modeling:</strong> The underlying representation system that defines physical constraints,
+                            boundaries, and enforces structure. Models can be exported as a .step file for compatibility with downstream tools.</p>
+                        </div>
+                </section>
+
+                
+
+                <!-- 3D Gallery Section -->
+                <section id="gallery" class="proj-section">
+                    <h3 style="margin-bottom: 16px;">Examples</h3>
+                    <div class="gallery-container-3d">
+                        <div class="gallery-header-3d">3D Model Gallery</div>
+                        
+                        <div class="gallery-3d-content">
+                            <!-- Left sidebar with model selection buttons -->
+                            <div class="model-sidebar-3d">
+                                <button class="model-button-3d active" data-model="model1">Mallet</button>
+                                <button class="model-button-3d" data-model="model2">Gear</button>
+                                <button class="model-button-3d" data-model="model3">Bike Brake Rotor</button>
+                                <button class="model-button-3d" data-model="model4">Table</button>
+                            </div>
+
+                            <!-- Right side with model viewer -->
+                            <div class="viewer-area-3d">
+                                <div class="model-header-3d">
+                                    <h3 class="model-title-3d" id="model-title">Mallet</h3>
+                                    <p class="model-description-3d" id="model-description">Query: Create a wooden mallet with a cylindrical handle</p>
+                                </div>
+                                <div class="model-viewer-3d">
+                                    <div id="canvas-container"></div>
+                                    <div class="viewer-controls-3d">
+                                        Left-click drag to rotate • Scroll to zoom • Right-click drag to pan
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="testing" class="proj-section">
+                    <h3>Testing &amp; Results</h3>
+                    <div>
+                        <p><strong>Metrics:</strong></p>
+                        <ul>
+                            <li><strong>Speed: </strong>measures the end-to-end runtime from the user prompt submission to generated CAD design</li>
+                            <br>
+                            <li><strong>Completion Rate: </strong> percentage of design tasks that are successfully generate an editable geometric output.</li>
+                            <br>
+                            <li><strong>Accuracy: </strong> how closely the generated CAD matches the user's intent</li>
+                        </ul>
+                        
+                        <p><strong>Outcome (30 design tasks tested):</strong></p>
+                        <ul>
+                            <li><strong>Speed: </strong> 7.7 min avg &plusmn; 34 seconds</li>
+                            <br>
+                            <li><strong>Completion Rate: </strong> 50% (15 out of 30 tasks completed successfully)</li>
+                            <br>
+                            <li><strong>Accuracy: </strong> 60% fully accurate, 30% partially accurate, 10% inaccurate</li>
+                        </ul>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <footer class="site-footer">
+            <div>© Brandon Feraud-Solorzano – Built with HTML &amp; CSS</div>
+        </footer>
+    </div>
+
+    <!-- Three.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GLTF Loader for loading 3D models -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+
+    <script>
+        // Mobile menu functionality
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        function openMenu() { 
+            mobileNav.classList.add('open'); 
+            mobileNav.setAttribute('aria-hidden', 'false'); 
+            menuBtn.setAttribute('aria-expanded', 'true'); 
+        }
+        function closeMenu() { 
+            mobileNav.classList.remove('open'); 
+            mobileNav.setAttribute('aria-hidden', 'true'); 
+            menuBtn.setAttribute('aria-expanded', 'false'); 
+        }
+        if (menuBtn) {
+            menuBtn.addEventListener('click', () => { 
+                mobileNav.classList.contains('open') ? closeMenu() : openMenu(); 
+            });
+            window.addEventListener('keydown', (e) => { 
+                if (e.key === 'Escape') closeMenu(); 
+            });
+        }
+
+        // Smooth scrolling for sidebar navigation
+        document.querySelectorAll('.proj-toc a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // 3D Viewer Code
+        /*
+         * CUSTOM SCALING GUIDE
+         * ====================
+         * Each model has a 'customScale' property that acts as a multiplier.
+         * 
+         * How to adjust:
+         * - If a model is TOO SMALL: INCREASE the customScale value
+         *   Example: change from 1.0 to 2.0 (doubles the size)
+         *            change from 1.0 to 5.0 (5x larger)
+         * 
+         * - If a model is TOO LARGE: DECREASE the customScale value  
+         *   Example: change from 1.0 to 0.5 (half the size)
+         *            change from 1.0 to 0.1 (10x smaller)
+         *
+         * - Base target size is 4 world units (fills ~50% of viewport)
+         * - customScale of 1.0 = normal size
+         * - customScale of 2.0 = 2x larger (fills ~100% of viewport)
+         * - customScale of 0.5 = half size (fills ~25% of viewport)
+         *
+         * After changing values, save and refresh your browser to see the results.
+         */
+        
+        // Scene setup
+        let scene, camera, renderer;
+        let currentMesh = null;
+        let previousMousePosition = { x: 0, y: 0 };
+
+        const modelButtons = document.querySelectorAll('.model-button-3d');
+        const container = document.getElementById('canvas-container');
+
+        // Model configuration
+        const models = {
+            model1: {
+                name: 'Mallet',
+                description: 'Query: Mallet the size of a gavel. It should have a cylindrical head.',
+                useDemo: false,
+                path: 'models/mallet_4.glb',
+                customScale: 2  // Adjust this value: increase to make bigger, decrease to make smaller
+            },
+            model2: {
+                name: '36-tooth gear',
+                description: 'Query: I want a 36-tooth gear with a diameter of 6cm',
+                useDemo: false,
+                path: 'models/36_tooth_gear_2.glb',
+                customScale: 2  // Adjust this value: increase to make bigger, decrease to make smaller
+            },
+            model3: {
+                name: 'Bike Brake Rotor',
+                description: 'Query: Make a bicycle disk brake that has a rotor of 180mm and a 6-bolt mounting system.',
+                useDemo: false,
+                path: 'models/brake_rotor_2.glb',
+                customScale: 2  // Adjust this value: increase to make bigger, decrease to make smaller
+            },
+            model4: {
+                name: 'Table',
+                description: 'Query: Table that can withstand 200 kg',
+                useDemo: false,
+                path: 'models/table_2.glb',
+                customScale: 2  // Adjust this value: increase to make bigger, decrease to make smaller
+            }
+        };
+
+        function init() {
+            // Create scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xe5e5e5);
+
+            // Create camera
+            camera = new THREE.PerspectiveCamera(
+                45,
+                container.clientWidth / container.clientHeight,
+                0.1,
+                1000
+            );
+            camera.position.set(0, 0, 12);
+
+            // Create renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            container.appendChild(renderer.domElement);
+
+            // Add lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(5, 10, 7);
+            directionalLight.castShadow = true;
+            directionalLight.shadow.mapSize.width = 2048;
+            directionalLight.shadow.mapSize.height = 2048;
+            scene.add(directionalLight);
+
+            const fillLight = new THREE.DirectionalLight(0xffffff, 0.3);
+            fillLight.position.set(-5, 0, -5);
+            scene.add(fillLight);
+
+            // Setup controls
+            setupMouseControls();
+
+            // Handle window resize
+            window.addEventListener('resize', onWindowResize);
+
+            // Load first model
+            loadModel('model1');
+
+            // Start animation loop
+            animate();
+        }
+
+        function loadModel(modelId) {
+            const modelConfig = models[modelId];
+            
+            // Update header
+            document.getElementById('model-title').textContent = modelConfig.name;
+            document.getElementById('model-description').textContent = modelConfig.description;
+
+            // Remove existing mesh
+            if (currentMesh) {
+                scene.remove(currentMesh);
+                currentMesh = null;
+            }
+
+            // Reset camera
+            camera.position.set(0, 0, 12);
+            camera.lookAt(0, 0, 0);
+
+            // Load actual GLB/GLTF model
+            const loader = new THREE.GLTFLoader();
+            
+            loader.load(
+                modelConfig.path,
+                // onLoad callback
+                (gltf) => {
+                    currentMesh = gltf.scene;
+                    
+                    // Step 1: Get initial bounding box
+                    const box = new THREE.Box3().setFromObject(currentMesh);
+                    const size = box.getSize(new THREE.Vector3());
+                    const center = box.getCenter(new THREE.Vector3());
+                    
+                    console.log(`${modelConfig.name} BEFORE centering:`, {
+                        size: { x: size.x.toFixed(2), y: size.y.toFixed(2), z: size.z.toFixed(2) },
+                        center: { x: center.x.toFixed(2), y: center.y.toFixed(2), z: center.z.toFixed(2) }
+                    });
+                    
+                    // Step 2: Center the model at origin
+                    currentMesh.position.x = -center.x;
+                    currentMesh.position.y = -center.y;
+                    currentMesh.position.z = -center.z;
+                    
+                    // Step 3: Calculate target scale
+                    const maxDim = Math.max(size.x, size.y, size.z);
+                    const baseTargetSize = 4; // Base target size in world units
+                    
+                    // Apply custom scale multiplier if specified
+                    const customMultiplier = modelConfig.customScale || 1.0;
+                    const targetSize = baseTargetSize * customMultiplier;
+                    
+                    const scaleFactor = targetSize / maxDim;
+                    
+                    // Step 4: Apply uniform scale
+                    currentMesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
+                    
+                    console.log(`${modelConfig.name} SCALING:`, {
+                        originalMaxDim: maxDim.toFixed(2),
+                        baseTargetSize: baseTargetSize,
+                        customMultiplier: customMultiplier,
+                        finalTargetSize: targetSize.toFixed(2),
+                        scaleFactor: scaleFactor.toFixed(6)
+                    });
+                    
+                    // Step 5: Verify final size
+                    const finalBox = new THREE.Box3().setFromObject(currentMesh);
+                    const finalSize = finalBox.getSize(new THREE.Vector3());
+                    const finalCenter = finalBox.getCenter(new THREE.Vector3());
+                    
+                    console.log(`${modelConfig.name} FINAL:`, {
+                        size: { x: finalSize.x.toFixed(2), y: finalSize.y.toFixed(2), z: finalSize.z.toFixed(2) },
+                        center: { x: finalCenter.x.toFixed(2), y: finalCenter.y.toFixed(2), z: finalCenter.z.toFixed(2) }
+                    });
+                    
+                    // Step 6: Reset camera position to ensure model is visible
+                    camera.position.set(0, 0, 15);
+                    camera.lookAt(0, 0, 0);
+                    
+                    // Enable shadows
+                    currentMesh.traverse((node) => {
+                        if (node.isMesh) {
+                            node.castShadow = true;
+                            node.receiveShadow = true;
+                        }
+                    });
+                    
+                    scene.add(currentMesh);
+                },
+                // onProgress callback
+                (xhr) => {
+                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                },
+                // onError callback
+                (error) => {
+                    console.error('Error loading model:', error);
+                    alert('Error loading model: ' + modelConfig.path);
+                }
+            );
+        }
+
+        function setupMouseControls() {
+            let isRotating = false;
+            let isPanning = false;
+
+            // Mouse down - detect left or right click
+            renderer.domElement.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                
+                if (e.button === 0) { // Left click
+                    isRotating = true;
+                    renderer.domElement.style.cursor = 'grabbing';
+                } else if (e.button === 2) { // Right click
+                    isPanning = true;
+                    renderer.domElement.style.cursor = 'move';
+                }
+                
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            });
+
+            // Mouse move
+            window.addEventListener('mousemove', (e) => {
+                if (!currentMesh) return;
+
+                const deltaX = e.clientX - previousMousePosition.x;
+                const deltaY = e.clientY - previousMousePosition.y;
+
+                if (isRotating) {
+                    // Rotate model around Y and X axes
+                    currentMesh.rotation.y += deltaX * 0.01;
+                    currentMesh.rotation.x += deltaY * 0.01;
+                } else if (isPanning) {
+                    // Pan the camera
+                    const panSpeed = 0.01;
+                    camera.position.x -= deltaX * panSpeed;
+                    camera.position.y += deltaY * panSpeed;
+                }
+
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            });
+
+            // Mouse up
+            window.addEventListener('mouseup', () => {
+                isRotating = false;
+                isPanning = false;
+                renderer.domElement.style.cursor = 'grab';
+            });
+
+            // Prevent context menu on right-click
+            renderer.domElement.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+            });
+
+            // Zoom with mouse wheel - proportional to current distance
+            renderer.domElement.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                
+                // Calculate zoom factor based on current camera distance
+                const currentDistance = camera.position.length();
+                const zoomSpeed = 0.1;
+                const zoomFactor = 1 + (e.deltaY > 0 ? zoomSpeed : -zoomSpeed);
+                
+                // Apply zoom by scaling camera position
+                camera.position.multiplyScalar(zoomFactor);
+                
+                // Clamp the distance to prevent going too close or too far
+                const newDistance = camera.position.length();
+                const minDistance = 2;
+                const maxDistance = 20;
+                
+                if (newDistance < minDistance) {
+                    camera.position.setLength(minDistance);
+                } else if (newDistance > maxDistance) {
+                    camera.position.setLength(maxDistance);
+                }
+            }, { passive: false });
+
+            // Set initial cursor
+            renderer.domElement.style.cursor = 'grab';
+        }
+
+        function onWindowResize() {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+
+        // Model button click handlers
+        modelButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                modelButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                // Load the selected model
+                const modelId = button.getAttribute('data-model');
+                loadModel(modelId);
+            });
+        });
+
+        // Initialize the scene when page loads
+        window.addEventListener('load', () => {
+            init();
+        });
+    </script>
+
+</body>
+
+</html>
