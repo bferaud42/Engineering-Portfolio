@@ -16,70 +16,171 @@
             --gallery-accent: #996260;
         }
 
+        /* New bubble-style hero */
         .proj-hero {
-            background: #72ab89;
+            background: linear-gradient( #72ab89 0%, #5a9a75 100%);
             color: #ffffff;
-            margin-top: 45px;
-            border-radius: 14px;
-            padding: 28px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            box-shadow: 0 12px 28px rgba(0, 0, 0, .25);
+            margin-top: 24px;
+            margin-bottom: 24px;
+            border-radius: 24px;
+            padding: 20px 50px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, .15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .proj-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            pointer-events: none;
+        }
+
+        .proj-hero-content {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+
+        .proj-hero-img {
+            position: relative;
+            z-index: 1;
+            width: 200px;
+            height: 320px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            flex-shrink: 0;
         }
 
         .proj-hero h1 {
             margin: 0 0 8px 0;
             font-family: Georgia, "Times New Roman", serif;
-            font-size: clamp(28px, 5vw, 54px);
-            line-height: 1.02;
+            font-size: clamp(28px, 5vw, 48px);
+            line-height: 1.1;
         }
 
         .proj-hero .sub {
-            margin: 6px 0 0;
+            margin: 6px 0 16px;
             font-size: clamp(14px, 1.8vw, 18px);
             color: rgba(255, 255, 255, .9);
         }
 
-        .proj-hero .meta {
-            margin-top: 12px;
+        .quick-facts {
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .quick-facts-label {
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.9;
+        }
+
+        .quick-facts-pills {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
+        }
+
+        .tools-used {
+            margin-top: 12px;
+        }
+
+        .tools-used-label {
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.9;
+            margin-bottom: 8px;
         }
 
         .proj-badge {
-            background: rgba(255, 255, 255, .12);
-            border: 1px solid rgba(255, 255, 255, .35);
-            padding: 8px 12px;
+            background: rgba(255, 255, 255, .15);
+            border: 1px solid rgba(255, 255, 255, .4);
+            padding: 8px 14px;
             border-radius: 999px;
             font-weight: 700;
             font-size: 12px;
             letter-spacing: .02em;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
-        .proj-hero-media {
-            border-radius: 12px;
+        /* Sticky navigation bubble */
+        .proj-nav-bubble {
+            position: sticky;
+            top: 16px;
+            height: 20px;
+            width: fit-content;
+            z-index: 100;
+            background: #996260;
+            border-radius: 15px;
+            padding: 12px 24px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .2);
+            margin: 24px auto;
             overflow: hidden;
-            background: #335942;
-            min-height: 260px;
-            position: relative;
         }
 
-        .proj-hero-media img,
-        .proj-hero-media video {
+        .proj-nav-bubble::before {
+            content: '';
             position: absolute;
             inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            pointer-events: none;
+        }
+
+        .proj-nav-link {
+            position: relative;
+            z-index: 1;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .proj-nav-link:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .proj-nav-link.active {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: inset 0 2px 8px rgba(255, 255, 255, 0.2);
         }
 
         .proj-layout {
-            display: grid;
-            grid-template-columns: minmax(220px, 280px) 1fr;
-            gap: 28px;
-            margin-top: 26px;
+            display: block;
+            margin-top: 0;
         }
 
         .proj-card {
@@ -101,24 +202,7 @@
         }
 
         .proj-toc {
-            position: sticky;
-            top: 16px;
-            align-self: start;
-        }
-
-        .proj-toc a {
-            display: block;
-            text-decoration: none;
-            color: var(--mutedInk);
-            padding: 8px 10px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .proj-toc a:hover {
-            color: var(--ink);
-            background: #f7f7f9;
+            display: none;
         }
 
         .proj-section {
@@ -202,8 +286,8 @@
         /* ---- Summary side-by-side (NEW) ---- */
         .summary-grid {
             display: grid;
-            grid-template-columns: 1.15fr 0.55fr;
-            gap: 18px;
+            grid-template-columns: .7fr .3fr;
+            gap: 50px;
             align-items: center;
         }
 
@@ -215,6 +299,11 @@
             align-items: center;
             justify-content: center;
             min-height: 120px;
+        }
+
+        .summary-text p {
+            margin: 0 0 10px;
+            line-height: 1.6;
         }
 
         .summary-media img {
@@ -231,11 +320,14 @@
         }
 
         .photo-frame {
-            margin: 0;
+            margin: auto;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 8px 16px rgba(0, 0, 0, .12);
             background: #f7f7f9;
+            width: 60%;
+            height: auto;
+            object-fit: cover;
         }
 
         .photo-frame img {
@@ -386,7 +478,27 @@
             }
 
             .proj-hero {
-                grid-template-columns: 1fr;
+                flex-direction: column;
+                padding: 30px;
+                border-radius: 40px;
+            }
+
+            .proj-hero-img {
+                width: 120px;
+                height: 120px;
+            }
+
+            .proj-nav-bubble {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding: 10px 16px;
+                gap: 0;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .proj-nav-link {
+                padding: 10px 16px;
+                font-size: 13px;
             }
 
             .summary-grid,
@@ -437,64 +549,57 @@
             <a href="../works.html" class="btn-return">← Return to Works Page</a>
         </div>
 
-        <!-- Hero -->
+         <!-- Sticky Navigation Bubble -->
+        <nav class="proj-nav-bubble">
+            <a href="#summary" class="proj-nav-link active" data-section="summary">Summary</a>
+            <a href="#problem" class="proj-nav-link" data-section="problem">Problem</a>
+            <a href="#mechanism" class="proj-nav-link" data-section="mechanism">Approach</a>
+            <a href="#gallery" class="proj-nav-link" data-section="gallery">Examples</a>
+            <a href="#testing" class="proj-nav-link" data-section="testing">Testing & Results</a>
+        </nav>
+
+        <!-- Hero Bubble -->
         <section class="proj-hero">
-            <div>
-                <h1><em>Project Hephaesas:</em> A Text-to-CAD Workflow</h1>
-                <p class="sub">A multi-agent system for automating mechanical CAD that reduces iteration time</p>
-                <div class="meta">
-                    <span class="proj-badge">Role: Project Owner</span>
-                    <span class="proj-badge">August 2025 - Current</span>
-                    <span class="proj-badge">Advisor: Nikolaos Bouklas</span>
+            <div class="proj-hero-img">
+                <img src="pj_logo_pic.png" alt="img" style="width: 100%; height: 100%; object-fit: contain;" />
             </div>
-            <div class="proj-hero-media">
-                <img src="pj_logo_nbg.png" alt="Project Hephaesas logo" />
+            <div class="proj-hero-content">
+                <h1>Project Hephaesas: A Text-to-CAD Workflow</h1>
+                <p class="sub">A multi-agent system for automating mechanical CAD that reduces iteration time</p>
+                <div class="quick-facts">
+                    <div class="quick-facts-label">Quick Facts:</div>
+                    <div class="quick-facts-pills">
+                        <span class="proj-badge">Role: Project Owner</span>
+                        <span class="proj-badge">August 2025 - Current</span>
+                        <span class="proj-badge">Advisor: Nikolaos Bouklas</span>
+                    </div>
+                </div>
+                <div class="tools-used">
+                    <div class="tools-used-label">Tools Used:</div>
+                    <div class="quick-facts-pills">
+                        <span class="proj-badge">Python</span>
+                        <span class="proj-badge">Docker</span>
+                        <span class="proj-badge">AutoGen AgentChat 2.0</span>
+                        <span class="proj-badge">CadQuery</span>
+                        <span class="proj-badge">OpenAI API</span>
+                        <span class="proj-badge">Claude API</span>
+                    </div>
+                </div>
             </div>
         </section>
 
+       
         <!-- Body layout -->
         <div class="proj-layout">
-            <!-- Left column: TOC and Specs -->
-            <aside class="proj-card proj-toc">
-                <h2 style="margin-bottom:8px;">On this page</h2>
-                <nav>
-                    <a href="#summary">Summary</a>
-                    <a href="#problem">Problem</a>
-                    <a href="#mechanism">Approach</a>
-                    <a href="#gallery">Interactive Gallery</a>
-                    <a href="#testing">Testing & Results</a>
-                    
-                </nav>
-                <hr style="border:none; border-top:1px solid var(--edge); margin:14px 0;" />
-                <div class="proj-specs">
-                    <div class="proj-spec">
-                        <div class="k">Advisor</div>
-                        <div class="v">Nikolaos Bouklas</div>
-                    </div>
-                    <div class="proj-spec">
-                        <div class="k">Role</div>
-                        <div class="v">Project Owner</div>
-                    </div>
-                    <div class="proj-spec">
-                        <div class="k">Timeline</div>
-                        <div class="v">August 2025 - Current</div>
-                    </div>
-                    <div class="proj-spec">
-                        <div class="k">Tools</div>
-                        <div class="v">Python, Docker, AutoGen 2.0, CadQuery, OpenAI API</div>
-                    </div>
-                </div>
-            </aside>
-
-            <!-- Right column: Content sections -->
-            <div>
+            <!-- Content sections -->
                 <!-- SUMMARY with side photo -->
                 <section id="summary" class="proj-section summary-card">
                     <h3>Summary</h3>
                     <div class="summary-grid">
-                        <div class="summary-copy">
+                        <div class="summary-text">
                             <p>Project Hephaesas is an AI-assisted workflow designed to speed up hardware design iteration and facilitate design exploration. It works best when a design is specified and specific dimensions are given.
                             </p>
+                            <br>
 
                             <p>Featuring a multi-agent architecture, the workflow attempts to understand the intent of the prompt and generate a CAD model. It can be exported as a .step file to view in Fusion and SolidWorks.
 
@@ -970,6 +1075,60 @@
         window.addEventListener('load', () => {
             init();
         });
+    </script>
+
+    <!-- Navigation scroll tracking script -->
+    <script>
+        // Track active section on scroll
+        const sections = document.querySelectorAll('.proj-section');
+        const navLinks = document.querySelectorAll('.proj-nav-link');
+
+        function updateActiveSection() {
+            let currentSection = '';
+            const scrollPosition = window.scrollY + 150; // Offset for better triggering
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                const linkSection = link.getAttribute('data-section');
+                if (linkSection === currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Smooth scroll for navigation links
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    const offset = 80; // Account for sticky nav
+                    const targetPosition = targetSection.offsetTop - offset;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Listen for scroll events
+        window.addEventListener('scroll', updateActiveSection);
+        
+        // Initial check
+        updateActiveSection();
     </script>
 
 </body>

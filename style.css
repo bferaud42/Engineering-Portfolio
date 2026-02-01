@@ -477,6 +477,185 @@ display: grid;
   height: 100%;
   object-fit: cover;
 }
+/* ============ Flip Cards Grid ============ */
+.flip-cards-grid {
+  display: grid;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin: 30px;
+  max-width: 1400px;
+}
+
+.flip-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.flip-card {
+  perspective: 1000px;
+  height: 480px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.flip-card-front {
+  background: #f8f9fa;
+  border-radius: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 20px rgba(76, 112, 90, 0.6);
+}
+
+.flip-card-back {
+  background: linear-gradient(135deg, #79a189 0%, #9dc5ad 100%);
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flip-card-content {
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.flip-card-front .flip-card-content {
+  justify-content: flex-start;
+}
+
+.flip-card-back .flip-card-content {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flip-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: auto;
+  color: #0b1220;
+  line-height: 1.2;
+}
+
+.flip-card-back h3 {
+  color: #ffffff;
+  padding: 40px;
+  margin-bottom: 20px;
+}
+
+.card-subheading {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #4b5563;
+  margin: 8px 0 4px 0;
+}
+
+.card-subheading-2 {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #6b7280;
+  margin: 4px 0 20px 0;
+}
+
+.card-image {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  max-height: 240px;
+}
+
+.card-summary {
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: center;
+  padding: 15px 12px;
+  flex: 1;
+  display: flex;
+  align-items: top;
+}
+
+.card-btn {
+  display: block;
+  text-align: center;
+  /* Reduced width from 100% to 60% (adjust as needed) */
+  width: 40%; 
+  /* Centers the button block horizontally */
+  margin: 12px auto; 
+  padding: 12px 24px;
+  background: #ffffff;
+  color: #0b1220;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive for flip cards */
+@media (max-width: 1100px) {
+  .flip-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .flip-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .flip-card {
+    height: 420px;
+  }
+}
 
 /* ============ About Page ============ */
 body.about {
@@ -595,6 +774,242 @@ body.about {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ============ Education Section ============ */
+.education-school {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  min-height: 40vh;
+  margin-top: 40px;
+  background: #79a189be;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px #4c705a9a;
+}
+
+.education-container {
+  margin-top: 40px;
+}
+
+.education-container h1 {
+  font-size: 30px;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+
+.education-intro {
+  margin-bottom: 40px;
+  max-width: 800px;
+}
+
+.education-intro p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.education-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 30px;
+}
+
+.education-right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: auto;
+}
+
+.education-bubble {
+  background: #79a189be;
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 0 20px rgba(121, 161, 137, 0.4), 
+              0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.education-bubble h3 {
+  margin: 0 0 20px 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #000000;
+  text-align: center;
+}
+
+.education-bubble ul {
+  list-style-type: disc;
+  padding-left: 24px;
+  margin: 0;
+}
+
+.education-bubble li {
+  margin-bottom: 10px;
+  line-height: 1.5;
+  color: #000000;
+  font-size: 14px;
+}
+
+.education-bubble li:last-child {
+  margin-bottom: auto;
+}
+
+/* Degree bubble with maroon accent */
+.education-degree-bubble {
+  background: #5b202bbe;
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 0 20px rgba(91, 32, 43, 0.4), 
+              0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  margin-bottom: 40px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.degree-logo {
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+.degree-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: white;
+}
+
+.degree-info {
+  color: #ffffff;
+}
+
+.degree-info h2 {
+  margin: 0 0 8px 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.degree-info h3 {
+  margin: 0 0 6px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.degree-info p {
+  margin: 4px 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.degree-gpa {
+  margin-top: 8px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+@media (max-width: 980px) {
+  .education-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .education-degree-bubble {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 20px;
+  }
+  
+  .degree-logo {
+    margin: 0 auto;
+  }
+}
+
+/* ============ Footer ============ */
+.site-footer {
+  margin-top: 48px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ============ Achievements Section ============ */
+.achievements-section {
+  width: 100%;
+  max-width: 1400px;
+  margin: 60px auto 40px;
+  padding: 0;
+}
+
+.achievements-title {
+  margin: 0 0 32px 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.achievement-bubble {
+  background: #9dc5addc;
+  border-radius: 14px;
+  padding: 40px 36px;
+  box-shadow: 0 8px 20px #4c705a9a;
+  color: #000000;
+}
+
+.achievement-bubble h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000000;
+  text-align: center;
+}
+
+.achievement-bubble ul {
+  list-style-type: disc;
+  padding-left: 24px;
+  margin: 0;
+}
+
+.achievement-bubble li {
+  margin-bottom: 10px;
+  color: rgba(0, 0, 0, 0.9);
+  line-height: 1.5;
+}
+
+.achievement-bubble li:last-child {
+  margin-bottom: 0;
+}
+
+.achievement-bubble .sub-list {
+  margin-top: 6px;
+  list-style-type: circle;
+}
+
+@media (max-width: 980px) {
+  .achievements-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
 
 /* ============ Footer ============ */
 .site-footer {
@@ -747,6 +1162,198 @@ body.about {
   width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.5);
   text-decoration: none;
+}
+
+/* ============ Home Index Cascading Cards ============ */
+.home-cards-section {
+  width: 100%;
+  max-width: 1400px;
+  margin: 60px auto;
+  padding: 40px 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 500px;
+}
+
+.home-cards-container {
+  position: relative;
+  max-width: 1400px;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1500px;
+}
+
+.home-card-item {
+  position: relative;
+  width: 370px;
+  height: 600px;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  cursor: pointer;
+}
+
+/* Initial cascading positions for index page cards */
+.home-card-item[data-card="1"] {
+  transform: translateX(-21px) rotateY(6deg);
+  z-index: 1;
+}
+
+.home-card-item[data-card="2"] {
+  transform: translateX(-5px) rotateY(6deg);
+  z-index: 2;
+}
+
+.home-card-item[data-card="3"] {
+  transform: translateX(2px) rotateY(6deg);
+  z-index: 3;
+}
+
+.home-card-item[data-card="4"] {
+  transform: rotateY(6deg);
+  z-index: 4;
+}
+.home-card-item:hover {
+  transform: rotateY(0deg);
+  z-index: 100;
+}
+
+/* Push other index cards back slightly when one is hovered */
+.home-cards-container:has(.home-card-item:hover) .home-card-item:not(:hover) {
+  filter: brightness(0.7);
+  transform: scale(0.9);
+}
+
+.home-card-body {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.home-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.home-card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Glassy blurred background for index cards */
+.home-card-bg-blur {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px) brightness(0.9);
+  transform: scale(1.1);
+  z-index: 0;
+}
+
+.home-card-face::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+.home-card-text {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 32px;
+  color: #fff;
+}
+
+.home-card-text h3 {
+  margin: 0 0 8px 0;
+  font-size: 2rem;
+  font-weight: 700;
+  font-family: Georgia, 'Times New Roman', serif;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.home-card-heading {
+  margin: 4px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.home-card-subheading {
+  margin: 2px 0 0 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Index card link overlay */
+.home-card-link {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  text-decoration: none;
+}
+
+/* Mobile responsive for index cascading cards */
+@media (max-width: 980px) {
+  .home-cards-section {
+    padding: 40px 20px;
+    min-height: auto;
+  }
+
+  .home-cards-container {
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    perspective: none;
+  }
+
+  .home-card-item {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    height: 320px;
+  }
+
+  .home-card-item[data-card="1"],
+  .home-card-item[data-card="2"],
+  .home-card-item[data-card="3"],
+  .home-card-item[data-card="4"] {
+    transform: none;
+    z-index: auto;
+  }
+
+  .home-card-item:hover {
+    transform: scale(1.02);
+  }
+
+  .home-cards-container:has(.home-card-item:hover) .home-card-item:not(:hover) {
+    filter: none;
+    transform: none;
+  }
 }
 
 /* ============ Resume Page ============ */

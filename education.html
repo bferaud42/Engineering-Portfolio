@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Education | Brandon Feraud-Solorzano</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="page" role="main">
+    <header class="site-header">
+      <div class="brand">
+        <div class="brand-name">Brandon Feraud-Solorzano</div>
+        <div class="brand-sub">Cornell University • B.S. Mechanical Engineering • M.Eng. Mechanical Engineering</div>
+      </div>
+      <nav class="primary-nav" aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="education.html" class="active">Education</a>
+        <a href="works.html">Works</a>
+        <a href="resume.html">Resume</a>
+      </nav>
+
+      <button class="menu-btn" aria-controls="mobile-nav" aria-expanded="false" id="menuBtn">☰</button>
+    </header>
+
+    <!-- Mobile nav -->
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+      <div class="box" role="dialog" aria-modal="true">
+        <a href="index.html" onclick="closeMenu()">Home</a>
+        <a href="about.html" onclick="closeMenu()">About</a>
+        <a href="education.html" onclick="closeMenu()">Education</a>
+        <a href="works.html" onclick="closeMenu()">Works</a>
+        <a href="resume.html" onclick="closeMenu()">Resume</a>
+        <button class="close-btn" onclick="closeMenu()">Close</button>
+      </div>
+    </div>
+
+    <main>
+      <section class="education-container">
+        <h1>Education</h1>
+
+        
+        <div class="education-intro">
+          <p>
+            I completed both my Bachelor's of Science and Master's of Engineering in Mechanical Engineering at Cornell University. 
+            My coursework spans mechanical systems, product design, computational methods, and business strategy.
+          </p>
+        </div>
+
+        <!-- Degree Bubble -->
+        <div class="education-degree-bubble">
+          <div class="degree-logo">
+            <img src="photos/cornell_logo.png" alt="Cornell University Logo">
+          </div>
+          <div class="degree-info">
+            <h2>Cornell University</h2>
+            <h3>College of Engineering</h3>
+            <p>Sibley School of Mechanical and Aerospace Engineering (MAE)</p>
+            <p class="degree-gpa">Graduate GPA: 3.6</p>
+          </div>
+        </div>
+
+        <div class="education-grid">
+          <!-- Undergraduate Courses -->
+          <div class="education-bubble">
+            <h3>Relevant Engineering Courses</h3>
+            <ul>
+              <li>CHEM 2090: Engineering General Chemistry</li>
+              <li>CS 1110: Intro to Computing Using Python</li>
+              <li>CS 2110: Object-Oriented Programming & Data Structures</li>
+              <li>CS 5700: AI Reasoning and Decision Making</li>
+              <li>ENGRD 2020: Statics & Mechanics of Solids</li>
+              <li>ENGRD 2210: Thermodynamics</li>
+              <li>ENGRG 3400: Engineering Student Project Teams</li>
+              <li>ENGRI 1620: Visual Imaging in the Electron Age</li>
+              <li>MAE 2030: Dynamics</li>
+              <li>MAE 2250: Mechanical Synthesis</li>
+              <li>MAE 3230: Introductory Fluid Mechanics</li>
+              <li>MAE 3240: Heat Transfer</li>
+              <li>MAE 3260: System Dynamics</li>
+              <li>MAE 3270: Mechanics of Engineering Materials</li>
+              <li>MAE 3780: Mechatronics</li>
+              <li>MAE 4220: Internet of Things</li>
+              <li>MAE 4230: Intermediate Fluid Dynamics</li>
+              <li>MAE 4240: Material Process Manufacturing</li>
+              <li>MAE 4272: Fluids and Heat Transfer Lab</li>
+              <li>MAE 4291: Supervised Senior Design Experience</li>
+              <li>MAE 4300: Engineers and Society</li>
+              <li>MAE 4341: Innovative Product Design via Digital Manufacturing</li>
+              <li>MAE 5020: Wind Power</li>
+              <li>MAE 5350: Multidisciplinary Design Optimization</li>
+              <li>MAE 5940: Professional Development in MAE</li>
+              <li>MAE 6510: Advanced Heat Transfer</li>
+              <li>MAE 6900: MEng Project</li>
+              <li>MATH 1910: Calculus for Engineers</li>
+              <li>MATH 1920: Multivariable Calculus for Engineers</li>
+              <li>MATH 2930: Differential Equations for Engineers</li>
+              <li>MATH 2940: Linear Algebra for Engineers</li>
+              <li>PHYS 1112: Physics I Mechanics & Heat</li>
+              <li>PHYS 2213: Physics II Electromagnetism</li>
+              <li>PHYS 2214: Physics III Oscillations, Waves, and Quantum Physics</li>
+            </ul>
+          </div>
+
+            <!-- Minor Courses -->
+          <div class="education-right-column">
+            <div class="education-bubble">
+              <h3>Relevant Business Courses</h3>
+              <ul>
+                <li>AEM 2210: Financial Accounting</li>
+                <li>AEM 3440: Consumer Behavior</li>
+                <li>AEM 4660: Business Simulation</li>
+                <li>AEM 5220: Digital Business Strategy</li>
+                <li>AEM 5650: Strategic Management of Technology and Innovation</li>
+                <li>HADM 2250: Finance</li>
+                <li>HADM 2410: Marketing Principles</li>
+                <li>ECON 1110: Intro Microeconomics</li>
+                <li>ECON 1120: Intro Macroeconomics</li>
+                <li>NBA 5070: Entrepreneurship for Scientists and Engineers</li>
+              </ul>
+            </div>
+
+               <!-- Right Column with Graduate and Minor Courses -->
+            
+            <div class="education-bubble">
+          <h3>Honors</h3>
+          <ul>
+            <li>Robert L. Ryan Scholar</li>
+            <li>National Action Council for Minorities in Engineering (NACME) Scholar</li>
+            <li>HSF Scholar</li>
+          </ul>
+        </div>
+
+            <!-- Graduate Courses -->
+            <div class="education-bubble">
+              <h3>Awards</h3>
+              <ul>
+                <li>Lester B. Knight Scholarship Award Recipient (2025)</li>
+            <li>HSF STEM Summit (2024)</li>
+            <li>The Miami Foundation CAP Award (2021-2023)</li>
+            <li>NACME Hackathon Social Media Award (2022)
+              <ul class="sub-list">
+                <li>Instagram: @brainbuilders_c</li>
+              </ul>
+            </li>
+            <li>NACME 3rd Overall Team Award (2022)</li>
+            <li>Diversity Scholar Award (2021)</li>
+              </ul>
+            </div>
+
+            </div>
+          </div>
+            </section>
+
+      </section>
+
+      <!-- Notable Achievements Section -->
+    </main>
+
+    <footer class="site-footer">
+      <div>© Brandon Feraud-Solorzano</div>
+    </footer>
+  </div>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    function openMenu() { mobileNav.classList.add('open'); mobileNav.setAttribute('aria-hidden', 'false'); menuBtn.setAttribute('aria-expanded', 'true'); }
+    function closeMenu() { mobileNav.classList.remove('open'); mobileNav.setAttribute('aria-hidden', 'true'); menuBtn.setAttribute('aria-expanded', 'false'); }
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => {
+        mobileNav.classList.contains('open') ? closeMenu() : openMenu();
+      });
+      window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+    }
+  </script>
+</body>
+
+</html>
