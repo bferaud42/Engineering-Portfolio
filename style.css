@@ -169,7 +169,7 @@ h1 {
   gap: 28px;
   align-items: stretch;
   min-height: 60vh;
-  background: #a5555e57;
+  background: #a5555e00;
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 8px 20px rgba(76, 112, 90, 0.6);
@@ -192,8 +192,9 @@ h1 {
   height: 100%;
   border-radius: 14px;
   overflow: hidden;
-  background: #996260;
+  background: #99626000;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  object-fit: contain;
   order: 2;
   z-index: 1;
 }
@@ -558,15 +559,17 @@ display: grid;
 .flip-card h3 {
   font-size: 1.5rem;
   font-weight: 700;
-  margin: auto;
   color: #0b1220;
   line-height: 1.2;
+  margin-bottom: 10px;
 }
 
 .flip-card-back h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
   color: #ffffff;
-  padding: 40px;
-  margin-bottom: 20px;
+  margin-top: 60px;
+  margin-bottom: 10px;
 }
 
 .card-subheading {
@@ -584,11 +587,9 @@ display: grid;
 }
 
 .card-image {
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
   padding: 12px;
   border-radius: 12px;
   background: #ffffff;
@@ -597,11 +598,10 @@ display: grid;
 }
 
 .card-image img {
-  width: 100%;
   height: 100%;
-  object-fit: cover;
+  max-height: 260px;
+  object-fit: contain;
   border-radius: 8px;
-  max-height: 240px;
 }
 
 .card-summary {
