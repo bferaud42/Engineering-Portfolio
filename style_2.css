@@ -1500,19 +1500,20 @@ body.about {
 
 .pdf-btn {
   display: inline-block;
-  padding: 8px 14px;
-  border-radius: 999px;
+  padding: auto;
+  border-radius: 8px;
   text-decoration: none;
-  border: 2px solid #b97784;
-  color: #b97784;
+  border: 2px solid #a7f3d0;
+  color: #059669;
   background: transparent;
   font-weight: 600;
   transition: transform .15s ease, filter .15s ease, background .15s ease, color .15s ease;
+  text-align: center;
 }
 
 .pdf-btn:hover {
-  background: #b97784;
-  color: #fff;
+  background: #a7f3d0;
+  color: #000000;
   transform: translateY(-1px);
 }
 
