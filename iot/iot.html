@@ -127,7 +127,7 @@
             position: sticky;
             top: 16px;
             height: 20px;
-            width: fit-content;
+            width: 80%;
             z-index: 100;
             background: #996260;
             border-radius: 15px;
@@ -138,12 +138,30 @@
             align-items: center;
             box-shadow: 0 12px 32px rgba(0, 0, 0, .2);
             margin: 24px auto;
-            overflow: hidden;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
+
+/* Add invisible spacers on mobile to ensure first/last items are visible */
+.proj-nav-bubble::after {
+    content: '';
+    flex-shrink: 0.2;
+    width: 40px; /* Spacer on right side */
+}
+
+.proj-nav-bubble::before {
+    content: '';
+    flex-shrink: 0.2;
+    width: 40px; /* Spacer on left side */
+    order: -1;
+}
 
         .proj-nav-bubble::before {
             content: '';
-            position: absolute;
+            position: relative;
             inset: 0;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(12px);
@@ -459,12 +477,13 @@
             }
 
             .proj-nav-bubble {
-                width: 70%;
-                justify-content: center;
-            }
+                margin: 12px auto;
+                padding: 12px 16px;
+                justify-content: flex-start;
+    }
             .proj-nav-link {
-                font-size: 9px;
-                align-items: center;
+                position: relative;
+                font-size: 12px;
                 padding: 12px 4px;
                 gap: 4px;
 
@@ -834,20 +853,24 @@
         // Mobile menu functionality
         const menuBtn = document.getElementById('menuBtn');
         const mobileNav = document.getElementById('mobileNav');
+        
         function openMenu() {
             mobileNav.classList.add('open');
             mobileNav.setAttribute('aria-hidden', 'false');
             menuBtn.setAttribute('aria-expanded', 'true');
         }
+        
         function closeMenu() {
             mobileNav.classList.remove('open');
             mobileNav.setAttribute('aria-hidden', 'true');
             menuBtn.setAttribute('aria-expanded', 'false');
         }
+        
         if (menuBtn) {
             menuBtn.addEventListener('click', () => {
                 mobileNav.classList.contains('open') ? closeMenu() : openMenu();
             });
+            
             window.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') closeMenu();
             });
@@ -898,12 +921,105 @@
             });
         });
 
-        // Listen for scroll events
-        window.addEventListener('scroll', updateActiveSection);
+       window.addEventListener('scroll', updateActiveSection);
+updateActiveSection();
 
-        // Initial check
-        updateActiveSection();
+// Mobile horizontal scroll enhancement for navigation
+const navBubble = document.querySelector('.proj-nav-bubble');
+
+if (navBubble) {
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    // Mouse/Touch drag scrolling
+    navBubble.addEventListener('mousedown', (e) => {
+        isDown = true;
+        navBubble.style.cursor = 'grabbing';
+        startX = e.pageX - navBubble.offsetLeft;
+        scrollLeft = navBubble.scrollLeft;
+    });
+
+    navBubble.addEventListener('touchstart', (e) => {
+        isDown = true;
+        startX = e.touches[0].pageX - navBubble.offsetLeft;
+        scrollLeft = navBubble.scrollLeft;
+    }, { passive: true });
+
+    navBubble.addEventListener('mouseleave', () => {
+        isDown = false;
+        navBubble.style.cursor = 'grab';
+    });
+
+    navBubble.addEventListener('mouseup', () => {
+        isDown = false;
+        navBubble.style.cursor = 'grab';
+    });
+
+    navBubble.addEventListener('touchend', () => {
+        isDown = false;
+    });
+
+    navBubble.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - navBubble.offsetLeft;
+        const walk = (x - startX) * 2;
+        navBubble.scrollLeft = scrollLeft - walk;
+    });
+
+    navBubble.addEventListener('touchmove', (e) => {
+        if (!isDown) return;
+        const x = e.touches[0].pageX - navBubble.offsetLeft;
+        const walk = (x - startX) * 2;
+        navBubble.scrollLeft = scrollLeft - walk;
+    }, { passive: true });
+
+    // Auto-scroll active link into view (centered)
+function scrollToCenter(link) {
+    const linkLeft = link.offsetLeft;
+    const linkWidth = link.offsetWidth;
+    const bubbleWidth = navBubble.offsetWidth;
+    const scrollPosition = linkLeft - (bubbleWidth / 2) + (linkWidth / 2);
+    
+    navBubble.scrollTo({
+        left: scrollPosition,
+        behavior: 'smooth'
+    });
+}
+
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        setTimeout(() => {
+            scrollToCenter(link);
+        }, 100);
+    });
+});
+
+// Center the active link on page load and scroll
+function centerActiveLink() {
+    const activeLink = document.querySelector('.proj-nav-link.active');
+    if (activeLink) {
+        scrollToCenter(activeLink);
+    }
+}
+
+// Center active link when page loads
+window.addEventListener('load', () => {
+    setTimeout(centerActiveLink, 500);
+});
+
+// Center active link when scrolling through sections
+const originalUpdateActiveSection = window.updateActiveSection;
+window.addEventListener('scroll', () => {
+    updateActiveSection();
+    setTimeout(centerActiveLink, 100);
+});
+
+    navBubble.style.cursor = 'grab';
+}
     </script>
+
 
 </main>
 

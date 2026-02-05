@@ -127,7 +127,7 @@
             position: sticky;
             top: 16px;
             height: 20px;
-            width: fit-content;
+            width: 80%;
             z-index: 100;
             background: #996260;
             border-radius: 15px;
@@ -138,12 +138,35 @@
             align-items: center;
             box-shadow: 0 12px 32px rgba(0, 0, 0, .2);
             margin: 24px auto;
-            overflow: hidden;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
+
+/* Add invisible spacers on mobile to ensure first/last items are visible */
+.proj-nav-bubble::after {
+    content: '';
+    flex-shrink: 0.2;
+    width: 40px; /* Spacer on right side */
+}
+
+.proj-nav-bubble::before {
+    content: '';
+    flex-shrink: 0.2;
+    width: 40px; /* Spacer on left side */
+    order: -1;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.proj-nav-bubble::-webkit-scrollbar {
+    display: none;
+}
 
         .proj-nav-bubble::before {
             content: '';
-            position: absolute;
+            position: relative;
             inset: 0;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(12px);
@@ -473,20 +496,22 @@
                 max-width: 300px;
             }
 
-            .viewer-controls {
-                flex-direction: column;
+            .proj-nav-bubble {
+                margin: 12px auto;
+                padding: 12px 16px;
+                justify-content: flex-start;
             }
 
-            .proj-nav-bubble {
-                width: 70%;
-                justify-content: center;
-            }
             .proj-nav-link {
-                font-size: 9px;
-                align-items: center;
+                position: relative;
+                font-size: 12px;
                 padding: 12px 4px;
                 gap: 4px;
 
+            }
+
+            .viewer-controls {
+                flex-direction: column;
             }
             .quick-facts-pills {
                 justify-content: center;
@@ -814,6 +839,13 @@
         let currentMesh = null;
         let previousMousePosition = { x: 0, y: 0 };
 
+         // Auto-rotation variables
+        let isAutoRotating = true;
+        let hasUserInteracted = false;
+        const autoRotationSpeed = 0.005;
+        let inactivityTimer = null;
+        const inactivityDelay = 1000; // Resume rotation after 3 seconds of inactivity (adjust as needed)
+
         console.log('Script loaded');
         
         const modelButtons = document.querySelectorAll('.viewer-btn');
@@ -1024,84 +1056,120 @@
         }
 
         function setupMouseControls() {
-            let isRotating = false;
-            let isPanning = false;
+    let isRotating = false;
+    let isPanning = false;
 
-            // Mouse down - detect left or right click
-            renderer.domElement.addEventListener('mousedown', (e) => {
-                e.preventDefault();
-                
-                if (e.button === 0) { // Left click
-                    isRotating = true;
-                    renderer.domElement.style.cursor = 'grabbing';
-                } else if (e.button === 2) { // Right click
-                    isPanning = true;
-                    renderer.domElement.style.cursor = 'move';
-                }
-                
-                previousMousePosition = { x: e.clientX, y: e.clientY };
-            });
-
-            // Mouse move
-            window.addEventListener('mousemove', (e) => {
-                if (!currentMesh) return;
-
-                const deltaX = e.clientX - previousMousePosition.x;
-                const deltaY = e.clientY - previousMousePosition.y;
-
-                if (isRotating) {
-                    // Rotate model around Y and X axes
-                    currentMesh.rotation.y += deltaX * 0.01;
-                    currentMesh.rotation.x += deltaY * 0.01;
-                } else if (isPanning) {
-                    // Pan the camera
-                    const panSpeed = 0.01;
-                    camera.position.x -= deltaX * panSpeed;
-                    camera.position.y += deltaY * panSpeed;
-                }
-
-                previousMousePosition = { x: e.clientX, y: e.clientY };
-            });
-
-            // Mouse up
-            window.addEventListener('mouseup', () => {
-                isRotating = false;
-                isPanning = false;
-                renderer.domElement.style.cursor = 'grab';
-            });
-
-            // Prevent context menu on right-click
-            renderer.domElement.addEventListener('contextmenu', (e) => {
-                e.preventDefault();
-            });
-
-            // Zoom with mouse wheel - proportional to current distance
-            renderer.domElement.addEventListener('wheel', (e) => {
-                e.preventDefault();
-                
-                // Calculate zoom factor based on current camera distance
-                const currentDistance = camera.position.length();
-                const zoomSpeed = 0.1;
-                const zoomFactor = 1 + (e.deltaY > 0 ? zoomSpeed : -zoomSpeed);
-                
-                // Apply zoom by scaling camera position
-                camera.position.multiplyScalar(zoomFactor);
-                
-                // Clamp the distance to prevent going too close or too far
-                const newDistance = camera.position.length();
-                const minDistance = 2;
-                const maxDistance = 20;
-                
-                if (newDistance < minDistance) {
-                    camera.position.setLength(minDistance);
-                } else if (newDistance > maxDistance) {
-                    camera.position.setLength(maxDistance);
-                }
-            }, { passive: false });
-
-            // Set initial cursor
-            renderer.domElement.style.cursor = 'grab';
+    // Helper function to stop auto-rotation
+    function stopAutoRotation() {
+        isAutoRotating = false;
+        
+        // Clear any existing timer
+        if (inactivityTimer) {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = null;
         }
+    }
+    
+    // Helper function to schedule auto-rotation resume
+    function scheduleAutoRotationResume() {
+        // Clear any existing timer
+        if (inactivityTimer) {
+            clearTimeout(inactivityTimer);
+        }
+        
+        // Set a new timer to resume rotation after inactivity
+        inactivityTimer = setTimeout(() => {
+            isAutoRotating = true;
+            console.log('Auto-rotation resumed after inactivity');
+        }, inactivityDelay);
+    }
+
+    // Mouse down - detect left or right click
+    renderer.domElement.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        
+        stopAutoRotation();
+        
+        if (e.button === 0) { // Left click
+            isRotating = true;
+            renderer.domElement.style.cursor = 'grabbing';
+        } else if (e.button === 2) { // Right click
+            isPanning = true;
+            renderer.domElement.style.cursor = 'move';
+        }
+        
+        previousMousePosition = { x: e.clientX, y: e.clientY };
+    });
+
+    // Mouse move
+    window.addEventListener('mousemove', (e) => {
+        if (!currentMesh) return;
+
+        const deltaX = e.clientX - previousMousePosition.x;
+        const deltaY = e.clientY - previousMousePosition.y;
+
+        if (isRotating) {
+            // Rotate model around Y and X axes
+            currentMesh.rotation.y += deltaX * 0.01;
+            currentMesh.rotation.x += deltaY * 0.01;
+        } else if (isPanning) {
+            // Pan the camera
+            const panSpeed = 0.01;
+            camera.position.x -= deltaX * panSpeed;
+            camera.position.y += deltaY * panSpeed;
+        }
+
+        previousMousePosition = { x: e.clientX, y: e.clientY };
+    });
+
+    // Mouse up - schedule auto-rotation to resume after inactivity
+    window.addEventListener('mouseup', () => {
+        isRotating = false;
+        isPanning = false;
+        renderer.domElement.style.cursor = 'grab';
+        
+        // Schedule auto-rotation to resume after user stops interacting
+        scheduleAutoRotationResume();
+    });
+
+    // Prevent context menu on right-click
+    renderer.domElement.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+    });
+
+    // Zoom with mouse wheel - proportional to current distance
+    renderer.domElement.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        
+        stopAutoRotation();
+        
+        // Calculate zoom factor based on current camera distance
+        const currentDistance = camera.position.length();
+        const zoomSpeed = 0.1;
+        const zoomFactor = 1 + (e.deltaY > 0 ? zoomSpeed : -zoomSpeed);
+        
+        // Apply zoom by scaling camera position
+        camera.position.multiplyScalar(zoomFactor);
+        
+        // Clamp the distance to prevent going too close or too far
+        const newDistance = camera.position.length();
+        const minDistance = 2;
+        const maxDistance = 20;
+        
+        if (newDistance < minDistance) {
+            camera.position.setLength(minDistance);
+        } else if (newDistance > maxDistance) {
+            camera.position.setLength(maxDistance);
+        }
+        
+        // Schedule auto-rotation to resume after user stops scrolling
+        scheduleAutoRotationResume();
+    }, { passive: false });
+
+    // Set initial cursor
+    renderer.domElement.style.cursor = 'grab';
+}
+
 
         function onWindowResize() {
             camera.aspect = container.clientWidth / container.clientHeight;
@@ -1110,24 +1178,39 @@
         }
 
         function animate() {
-            requestAnimationFrame(animate);
-            renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+        
+        // Auto-rotate if enabled and user hasn't interacted
+        if (isAutoRotating && currentMesh && !hasUserInteracted) {
+            currentMesh.rotation.y += autoRotationSpeed;
+        }
+        
+        renderer.render(scene, camera);
         }
 
         // Model button click handlers
         modelButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove active class from all buttons
-                modelButtons.forEach(btn => btn.classList.remove('active'));
-                
-                // Add active class to clicked button
-                button.classList.add('active');
-                
-                // Load the selected model
-                const modelId = button.getAttribute('data-model');
-                loadModel(modelId);
-            });
-        });
+    button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        modelButtons.forEach(btn => btn.classList.remove('active'));
+        
+        // Add active class to clicked button
+        button.classList.add('active');
+        
+        // Reset auto-rotation for new model
+        isAutoRotating = true;
+        
+        // Clear any existing inactivity timer
+        if (inactivityTimer) {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = null;
+        }
+        
+        // Load the selected model
+        const modelId = button.getAttribute('data-model');
+        loadModel(modelId);
+    });
+});
 
         // Initialize the scene when page loads
         window.addEventListener('load', () => {
@@ -1135,7 +1218,9 @@
         });
     </script>
 
-        <!-- Navigation scroll tracking script -->
+    </script>
+
+    <!-- Navigation scroll tracking script -->
     <script>
         // Track active section on scroll
         const sections = document.querySelectorAll('.proj-section');
@@ -1187,6 +1272,99 @@
         
         // Initial check
         updateActiveSection();
+
+        // Mobile horizontal scroll enhancement for navigation
+        const navBubble = document.querySelector('.proj-nav-bubble');
+        
+        if (navBubble) {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            // Mouse/Touch drag scrolling
+            navBubble.addEventListener('mousedown', (e) => {
+                isDown = true;
+                navBubble.style.cursor = 'grabbing';
+                startX = e.pageX - navBubble.offsetLeft;
+                scrollLeft = navBubble.scrollLeft;
+            });
+
+            navBubble.addEventListener('touchstart', (e) => {
+                isDown = true;
+                startX = e.touches[0].pageX - navBubble.offsetLeft;
+                scrollLeft = navBubble.scrollLeft;
+            }, { passive: true });
+
+            navBubble.addEventListener('mouseleave', () => {
+                isDown = false;
+                navBubble.style.cursor = 'grab';
+            });
+
+            navBubble.addEventListener('mouseup', () => {
+                isDown = false;
+                navBubble.style.cursor = 'grab';
+            });
+
+            navBubble.addEventListener('touchend', () => {
+                isDown = false;
+            });
+
+            navBubble.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - navBubble.offsetLeft;
+                const walk = (x - startX) * 2;
+                navBubble.scrollLeft = scrollLeft - walk;
+            });
+
+            navBubble.addEventListener('touchmove', (e) => {
+                if (!isDown) return;
+                const x = e.touches[0].pageX - navBubble.offsetLeft;
+                const walk = (x - startX) * 2;
+                navBubble.scrollLeft = scrollLeft - walk;
+            }, { passive: true });
+
+            // Auto-scroll active link into view (centered)
+            function scrollToCenter(link) {
+                const linkLeft = link.offsetLeft;
+                const linkWidth = link.offsetWidth;
+                const bubbleWidth = navBubble.offsetWidth;
+                const scrollPosition = linkLeft - (bubbleWidth / 2) + (linkWidth / 2);
+                
+                navBubble.scrollTo({
+                    left: scrollPosition,
+                    behavior: 'smooth'
+                });
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    setTimeout(() => {
+                        scrollToCenter(link);
+                    }, 100);
+                });
+            });
+
+            // Center the active link on page load and scroll
+            function centerActiveLink() {
+                const activeLink = document.querySelector('.proj-nav-link.active');
+                if (activeLink) {
+                    scrollToCenter(activeLink);
+                }
+            }
+
+            // Center active link when page loads
+            window.addEventListener('load', () => {
+                setTimeout(centerActiveLink, 500);
+            });
+
+            // Center active link when scrolling through sections
+            window.addEventListener('scroll', () => {
+                setTimeout(centerActiveLink, 100);
+            });
+
+            navBubble.style.cursor = 'grab';
+        }
     </script>
 
 
