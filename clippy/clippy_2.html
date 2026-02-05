@@ -19,7 +19,7 @@
         /* New bubble-style hero */
         .proj-hero {
             display: flex;
-            background: linear-gradient(#72ab89 0%, #5a9a75 100%);
+            background: linear-gradient(#72ab89be 0%, #5a9a75 100%);
             color: #ffffff;
             margin-top: 24px;
             margin-bottom: 24px;
@@ -124,27 +124,50 @@
         }
 
         /* Sticky navigation bubble */
-        .proj-nav-bubble {
-            position: sticky;
-            top: 16px;
-            height: 20px;
-            width: fit-content;
-            z-index: 100;
-            background: #996260;
-            border-radius: 15px;
-            padding: 12px 24px;
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 12px 32px rgba(0, 0, 0, .2);
-            margin: 24px auto;
-            overflow: hidden;
-        }
+.proj-nav-bubble {
+    position: sticky;
+    top: 16px;
+    height: 20px;
+    max-width: 80%;
+    z-index: 100;
+    background: #996260;
+    border-radius: 15px;
+    padding: 12px 24px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, .2);
+    margin: 12px auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+/* Add invisible spacers on mobile to ensure first/last items are visible */
+.proj-nav-bubble::after {
+    content: '';
+    flex-shrink: 0.2;
+    width: 40px; /* Spacer on right side */
+}
+
+.proj-nav-bubble::before {
+    content: '';
+    flex-shrink: 0.2;
+    width: 40px; /* Spacer on left side */
+    order: -1;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.proj-nav-bubble::-webkit-scrollbar {
+    display: none;
+}
 
         .proj-nav-bubble::before {
             content: '';
-            position: absolute;
+            position: relative;
             inset: 0;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(12px);
@@ -458,14 +481,14 @@
             .viewer-controls {
                 flex-direction: column;
             }
-
             .proj-nav-bubble {
-                width: 70%;
-                justify-content: center;
-            }
+                margin: 12px auto;
+                padding: 12px 16px;
+                justify-content: flex-start;
+    }
             .proj-nav-link {
-                font-size: 9px;
-                align-items: center;
+                position: relative;
+                font-size: 12px;
                 padding: 12px 4px;
                 gap: 4px;
 
@@ -842,9 +865,6 @@
         </footer>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
-    
     <script>
         // Mobile menu functionality
         const menuBtn = document.getElementById('menuBtn');
@@ -871,223 +891,6 @@
                 if (e.key === 'Escape') closeMenu();
             });
         }
-
-        // 3D Model Viewer
-        let scene, camera, renderer, currentMesh;
-        let previousMousePosition = { x: 0, y: 0 };
-        const container = document.getElementById('model-container');
-        const modelButtons = document.querySelectorAll('.model-btn');
-
-        // Model configurations
-        const models = {
-            'design0': {
-                path: 'models/design0.stl',
-                name: 'Design 0',
-                customScale: 1.0
-            },
-            'design1-modular': {
-                path: 'models/design1_modular.stl',
-                name: 'Design 1 - Modular',
-                customScale: 1.0
-            },
-            'design2-final': {
-                path: 'models/design2_final.stl',
-                name: 'Design 2 - Final',
-                customScale: 1.0
-            }
-        };
-
-        function init() {
-            // Scene setup
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xf5f7fa);
-
-            // Camera setup
-            camera = new THREE.PerspectiveCamera(
-                45,
-                container.clientWidth / container.clientHeight,
-                0.1,
-                1000
-            );
-            camera.position.set(0, 0, 15);
-
-            // Renderer setup
-            renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            renderer.shadowMap.enabled = true;
-            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-            container.appendChild(renderer.domElement);
-
-            // Lighting
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-            scene.add(ambientLight);
-
-            const directionalLight1 = new THREE.DirectionalLight(0xffffff, 0.8);
-            directionalLight1.position.set(5, 10, 7);
-            directionalLight1.castShadow = true;
-            scene.add(directionalLight1);
-
-            const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.4);
-            directionalLight2.position.set(-5, -5, -5);
-            scene.add(directionalLight2);
-
-            // Setup controls
-            setupMouseControls();
-
-            // Handle window resize
-            window.addEventListener('resize', onWindowResize);
-
-            // Load default model
-            loadModel('design0');
-
-            // Start animation loop
-            animate();
-        }
-
-        function loadModel(modelId) {
-            const modelConfig = models[modelId];
-            if (!modelConfig) return;
-
-            // Remove existing model
-            if (currentMesh) {
-                scene.remove(currentMesh);
-                currentMesh = null;
-            }
-
-            // Load new model
-            const loader = new THREE.STLLoader();
-            loader.load(
-                modelConfig.path,
-                (geometry) => {
-                    const material = new THREE.MeshPhongMaterial({
-                        color: 0x72ab89,
-                        specular: 0x111111,
-                        shininess: 100
-                    });
-
-                    currentMesh = new THREE.Mesh(geometry, material);
-
-                    // Center and scale the model
-                    const box = new THREE.Box3().setFromObject(currentMesh);
-                    const center = box.getCenter(new THREE.Vector3());
-                    const size = box.getSize(new THREE.Vector3());
-
-                    currentMesh.position.x = -center.x;
-                    currentMesh.position.y = -center.y;
-                    currentMesh.position.z = -center.z;
-
-                    const maxDim = Math.max(size.x, size.y, size.z);
-                    const targetSize = 4 * (modelConfig.customScale || 1.0);
-                    const scaleFactor = targetSize / maxDim;
-                    currentMesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
-
-                    currentMesh.traverse((node) => {
-                        if (node.isMesh) {
-                            node.castShadow = true;
-                            node.receiveShadow = true;
-                        }
-                    });
-
-                    scene.add(currentMesh);
-                },
-                (xhr) => {
-                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-                },
-                (error) => {
-                    console.error('Error loading model:', error);
-                }
-            );
-        }
-
-        function setupMouseControls() {
-            let isRotating = false;
-            let isPanning = false;
-
-            renderer.domElement.addEventListener('mousedown', (e) => {
-                e.preventDefault();
-                if (e.button === 0) {
-                    isRotating = true;
-                    renderer.domElement.style.cursor = 'grabbing';
-                } else if (e.button === 2) {
-                    isPanning = true;
-                    renderer.domElement.style.cursor = 'move';
-                }
-                previousMousePosition = { x: e.clientX, y: e.clientY };
-            });
-
-            window.addEventListener('mousemove', (e) => {
-                if (!currentMesh) return;
-
-                const deltaX = e.clientX - previousMousePosition.x;
-                const deltaY = e.clientY - previousMousePosition.y;
-
-                if (isRotating) {
-                    currentMesh.rotation.y += deltaX * 0.01;
-                    currentMesh.rotation.x += deltaY * 0.01;
-                } else if (isPanning) {
-                    const panSpeed = 0.01;
-                    camera.position.x -= deltaX * panSpeed;
-                    camera.position.y += deltaY * panSpeed;
-                }
-
-                previousMousePosition = { x: e.clientX, y: e.clientY };
-            });
-
-            window.addEventListener('mouseup', () => {
-                isRotating = false;
-                isPanning = false;
-                renderer.domElement.style.cursor = 'grab';
-            });
-
-            renderer.domElement.addEventListener('contextmenu', (e) => {
-                e.preventDefault();
-            });
-
-            renderer.domElement.addEventListener('wheel', (e) => {
-                e.preventDefault();
-                const zoomSpeed = 0.1;
-                const zoomFactor = 1 + (e.deltaY > 0 ? zoomSpeed : -zoomSpeed);
-                camera.position.multiplyScalar(zoomFactor);
-
-                const newDistance = camera.position.length();
-                const minDistance = 2;
-                const maxDistance = 20;
-
-                if (newDistance < minDistance) {
-                    camera.position.setLength(minDistance);
-                } else if (newDistance > maxDistance) {
-                    camera.position.setLength(maxDistance);
-                }
-            }, { passive: false });
-
-            renderer.domElement.style.cursor = 'grab';
-        }
-
-        function onWindowResize() {
-            camera.aspect = container.clientWidth / container.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(container.clientWidth, container.clientHeight);
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            renderer.render(scene, camera);
-        }
-
-        // Model button handlers
-        modelButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                modelButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                const modelId = button.getAttribute('data-model');
-                loadModel(modelId);
-            });
-        });
-
-        // Initialize when page loads
-        window.addEventListener('load', () => {
-            init();
-        });
 
         // Navigation scroll tracking
         const sections = document.querySelectorAll('.proj-section');
@@ -1134,8 +937,103 @@
             });
         });
 
-        window.addEventListener('scroll', updateActiveSection);
-        updateActiveSection();
+       window.addEventListener('scroll', updateActiveSection);
+updateActiveSection();
+
+// Mobile horizontal scroll enhancement for navigation
+const navBubble = document.querySelector('.proj-nav-bubble');
+
+if (navBubble) {
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    // Mouse/Touch drag scrolling
+    navBubble.addEventListener('mousedown', (e) => {
+        isDown = true;
+        navBubble.style.cursor = 'grabbing';
+        startX = e.pageX - navBubble.offsetLeft;
+        scrollLeft = navBubble.scrollLeft;
+    });
+
+    navBubble.addEventListener('touchstart', (e) => {
+        isDown = true;
+        startX = e.touches[0].pageX - navBubble.offsetLeft;
+        scrollLeft = navBubble.scrollLeft;
+    }, { passive: true });
+
+    navBubble.addEventListener('mouseleave', () => {
+        isDown = false;
+        navBubble.style.cursor = 'grab';
+    });
+
+    navBubble.addEventListener('mouseup', () => {
+        isDown = false;
+        navBubble.style.cursor = 'grab';
+    });
+
+    navBubble.addEventListener('touchend', () => {
+        isDown = false;
+    });
+
+    navBubble.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - navBubble.offsetLeft;
+        const walk = (x - startX) * 2;
+        navBubble.scrollLeft = scrollLeft - walk;
+    });
+
+    navBubble.addEventListener('touchmove', (e) => {
+        if (!isDown) return;
+        const x = e.touches[0].pageX - navBubble.offsetLeft;
+        const walk = (x - startX) * 2;
+        navBubble.scrollLeft = scrollLeft - walk;
+    }, { passive: true });
+
+    // Auto-scroll active link into view (centered)
+function scrollToCenter(link) {
+    const linkLeft = link.offsetLeft;
+    const linkWidth = link.offsetWidth;
+    const bubbleWidth = navBubble.offsetWidth;
+    const scrollPosition = linkLeft - (bubbleWidth / 2) + (linkWidth / 2);
+    
+    navBubble.scrollTo({
+        left: scrollPosition,
+        behavior: 'smooth'
+    });
+}
+
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        setTimeout(() => {
+            scrollToCenter(link);
+        }, 100);
+    });
+});
+
+// Center the active link on page load and scroll
+function centerActiveLink() {
+    const activeLink = document.querySelector('.proj-nav-link.active');
+    if (activeLink) {
+        scrollToCenter(activeLink);
+    }
+}
+
+// Center active link when page loads
+window.addEventListener('load', () => {
+    setTimeout(centerActiveLink, 500);
+});
+
+// Center active link when scrolling through sections
+const originalUpdateActiveSection = window.updateActiveSection;
+window.addEventListener('scroll', () => {
+    updateActiveSection();
+    setTimeout(centerActiveLink, 100);
+});
+
+    navBubble.style.cursor = 'grab';
+}
     </script>
 
 </body>
