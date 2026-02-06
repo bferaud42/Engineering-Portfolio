@@ -1760,6 +1760,13 @@ body.about {
 }
 
 @media (max-width: 950px) {
+  .education-container h1, .education-container p{
+    text-align: center;
+  }
+
+  .pdf-actions{
+    justify-content: center;
+  }
 
   .about-container{
     margin: auto;
